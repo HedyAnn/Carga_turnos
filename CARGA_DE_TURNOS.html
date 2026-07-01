@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carga de Turnos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@300..700,0..1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./CARGA_DE_TURNOS.css" />
+</head>
+<body>
+  <div class="turnos-layout">
+    <aside class="sidebar" aria-label="Navegacion principal">
+      <div class="sidebar-top">
+        <a class="brand-badge" href="#" aria-label="Follow Up">up</a>
+
+        <nav class="sidebar-nav">
+          <a class="sidebar-link" href="#" aria-label="Inicio">
+            <span class="material-symbols-outlined">home</span>
+          </a>
+          <a class="sidebar-link" href="#" aria-label="Resumen">
+            <span class="material-symbols-outlined">deployed_code_history</span>
+          </a>
+          <a class="sidebar-link active" href="#" aria-current="page" aria-label="Carga de turnos">
+            <span class="material-symbols-outlined">insert_chart</span>
+          </a>
+          <a class="sidebar-link" href="#" aria-label="Objetivos">
+            <span class="material-symbols-outlined">my_location</span>
+          </a>
+          <a class="sidebar-link" href="#" aria-label="Presentacion">
+            <span class="material-symbols-outlined">present_to_all</span>
+          </a>
+          <a class="sidebar-link" href="#" aria-label="Descargas">
+            <span class="material-symbols-outlined">download</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-bottom">
+        <a class="sidebar-link muted" href="#" aria-label="Documentos">
+          <span class="material-symbols-outlined">description</span>
+        </a>
+        <a class="sidebar-link muted" href="#" aria-label="Ayuda">
+          <span class="material-symbols-outlined">help</span>
+        </a>
+        <a class="sidebar-link muted" href="#" aria-label="Usuarios">
+          <span class="material-symbols-outlined">group</span>
+        </a>
+        <a class="sidebar-link muted" href="#" aria-label="Salir">
+          <span class="material-symbols-outlined">logout</span>
+        </a>
+        <a class="sidebar-link muted" href="#" aria-label="Expandir">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </a>
+      </div>
+    </aside>
+
+    <main class="page">
+      <section class="page-shell">
+        <section class="page-view" data-view-screen="overview">
+        <header class="page-header">
+          <div class="breadcrumbs" aria-label="Breadcrumb">
+            <span class="material-symbols-outlined">home</span>
+            <span class="material-symbols-outlined arrow">chevron_right</span>
+            <span>Gestion de Reportes</span>
+            <span class="material-symbols-outlined arrow">chevron_right</span>
+            <strong>Carga de Turnos</strong>
+          </div>
+
+          <h1>Carga de Turnos</h1>
+        </header>
+
+        <section class="filters-row" aria-label="Filtros">
+          <div class="filter-block period-block">
+            <label for="period-month">
+              <span class="material-symbols-outlined">calendar_month</span>
+              Periodo
+            </label>
+
+            <div class="period-picker" data-period-picker>
+              <div class="period-control">
+                <button type="button" class="period-arrow" aria-label="Periodo anterior" data-period-shift="-1">
+                  <span class="material-symbols-outlined">arrow_back</span>
+                </button>
+
+                <button id="period-month" class="month-trigger" type="button" aria-label="Mes" aria-expanded="false" aria-controls="month-panel">
+                  <span data-month-label>Febrero</span>
+                  <span class="material-symbols-outlined">expand_more</span>
+                </button>
+
+                <div class="year-picker" data-year-picker>
+                  <button id="period-year" class="year-trigger" type="button" aria-label="Ano" aria-expanded="false" aria-controls="year-panel">
+                    <span data-year-label>2025</span>
+                    <span class="material-symbols-outlined">expand_more</span>
+                  </button>
+
+                  <div id="year-panel" class="year-panel" hidden>
+                    <div class="year-list" role="listbox" aria-label="Seleccion de ano"></div>
+                  </div>
+                </div>
+
+                <button type="button" class="period-arrow" aria-label="Periodo siguiente" data-period-shift="1">
+                  <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+              </div>
+
+              <div id="month-panel" class="month-panel" hidden>
+                <div class="month-grid" role="listbox" aria-label="Seleccion de mes">
+                  <button class="month-option" type="button" data-month-index="0">Enero</button>
+                  <button class="month-option active" type="button" data-month-index="1" aria-selected="true">Febrero</button>
+                  <button class="month-option" type="button" data-month-index="2">Marzo</button>
+                  <button class="month-option" type="button" data-month-index="3">Abril</button>
+                  <button class="month-option" type="button" data-month-index="4">Mayo</button>
+                  <button class="month-option" type="button" data-month-index="5">Junio</button>
+                  <button class="month-option" type="button" data-month-index="6">Julio</button>
+                  <button class="month-option" type="button" data-month-index="7">Agosto</button>
+                  <button class="month-option" type="button" data-month-index="8">Septiembre</button>
+                  <button class="month-option" type="button" data-month-index="9">Octubre</button>
+                  <button class="month-option" type="button" data-month-index="10">Noviembre</button>
+                  <button class="month-option" type="button" data-month-index="11">Diciembre</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-block">
+            <label for="group-trigger">Grupo</label>
+            <div class="custom-dropdown" data-dropdown>
+              <button id="group-trigger" class="dropdown-trigger" type="button" aria-expanded="false" aria-controls="group-panel">
+                <span class="dropdown-trigger-text" data-dropdown-label>Seleccionar Grupo</span>
+                <span class="material-symbols-outlined">expand_more</span>
+              </button>
+
+              <div id="group-panel" class="dropdown-panel" hidden>
+                <div class="dropdown-search">
+                  <span class="material-symbols-outlined">search</span>
+                  <input type="text" placeholder="Buscar grupo" data-dropdown-search />
+                </div>
+
+                <div class="dropdown-options" role="listbox" aria-label="Opciones de grupo">
+                  <label class="dropdown-option dropdown-option-all" data-option-text="Seleccionar todo">
+                    <input type="checkbox" data-select-all />
+                    <span>Seleccionar todo</span>
+                  </label>
+                  <label class="dropdown-option" data-option-text="Zona norte Bogotá">
+                    <input type="checkbox" value="Zona norte Bogotá" />
+                    <span>Zona norte Bogotá</span>
+                  </label>
+                  <label class="dropdown-option" data-option-text="Zona centro Bogotá">
+                    <input type="checkbox" value="Zona centro Bogotá" />
+                    <span>Zona centro Bogotá</span>
+                  </label>
+                  <label class="dropdown-option" data-option-text="Tiendas Colombia">
+                    <input type="checkbox" value="Tiendas Colombia" />
+                    <span>Tiendas Colombia</span>
+                  </label>
+                  <label class="dropdown-option" data-option-text="Tiendas Bogotá">
+                    <input type="checkbox" value="Tiendas Bogotá" />
+                    <span>Tiendas Bogotá</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-block">
+            <label for="store-trigger">Tienda</label>
+            <div class="custom-dropdown" data-dropdown>
+              <button id="store-trigger" class="dropdown-trigger" type="button" aria-expanded="false" aria-controls="store-panel">
+                <span class="dropdown-trigger-text" data-dropdown-label>Seleccionar Tienda</span>
+                <span class="material-symbols-outlined">expand_more</span>
+              </button>
+
+              <div id="store-panel" class="dropdown-panel" hidden>
+                <div class="dropdown-search">
+                  <span class="material-symbols-outlined">search</span>
+                  <input type="text" placeholder="Buscar tienda" data-dropdown-search />
+                </div>
+
+                <div class="dropdown-options" role="listbox" aria-label="Opciones de tienda">
+                  <label class="dropdown-option dropdown-option-all" data-option-text="Seleccionar todo">
+                    <input type="checkbox" data-select-all />
+                    <span>Seleccionar todo</span>
+                  </label>
+                  <label class="dropdown-option" data-option-text="Arequipa">
+                    <input type="checkbox" value="Arequipa" />
+                    <span>Arequipa</span>
+                  </label>
+                  <label class="dropdown-option" data-option-text="Baby Plane Las Condes">
+                    <input type="checkbox" value="Baby Plane Las Condes" />
+                    <span>Baby Plane Las Condes</span>
+                  </label>
+                  <label class="dropdown-option" data-option-text="Colloky Alto Las Condes">
+                    <input type="checkbox" value="Colloky Alto Las Condes" />
+                    <span>Colloky Alto Las Condes</span>
+                  </label>
+                  <label class="dropdown-option" data-option-text="Colloky Antofagasta">
+                    <input type="checkbox" value="Colloky Antofagasta" />
+                    <span>Colloky Antofagasta</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="summary-grid" aria-label="Resumen del periodo">
+          <article class="card coverage-card">
+            <div class="card-head">
+              <h2>
+                <span class="material-symbols-outlined">calendar_month</span>
+                Resumen Cobertura del Periodo
+              </h2>
+              <div class="summary-info-tooltip">
+                <button class="icon-button" type="button" aria-label="Informacion sobre cobertura">
+                  <span class="material-symbols-outlined">info</span>
+                </button>
+                <div class="summary-info-panel" role="tooltip">
+                  La cobertura representa el porcentaje del horario de operacion en que una tienda cuenta con vendedores con turnos asignados.
+                </div>
+              </div>
+            </div>
+
+            <div class="coverage-content">
+              <div class="donut-chart" aria-label="Total de tiendas">
+                <div class="donut-center">
+                  <span>Tiendas</span>
+                  <strong>2.000</strong>
+                </div>
+              </div>
+
+              <div class="legend">
+                <h3>Cobertura Turnos:</h3>
+                <div class="legend-row">
+                  <span class="legend-label"><span class="dot complete"></span>Completa</span>
+                  <strong>70%</strong>
+                </div>
+                <div class="legend-row">
+                  <span class="legend-label"><span class="dot partial"></span>Parcial</span>
+                  <strong>20%</strong>
+                </div>
+                <div class="legend-row">
+                  <span class="legend-label"><span class="dot critical"></span>Critico</span>
+                  <strong>10%</strong>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card state-card">
+            <div class="card-head">
+              <h2>
+                <span class="material-symbols-outlined">calendar_month</span>
+                Estado de Cobertura
+              </h2>
+            </div>
+
+            <div class="state-grid">
+              <div class="state-metric">
+                <strong class="green">1.400</strong>
+                <p>Tiendas con cobertura completa.</p>
+              </div>
+
+              <div class="state-metric state-divider">
+                <strong class="red">600</strong>
+                <p>Tiendas con cobertura parcial o critica.</p>
+              </div>
+            </div>
+
+            <div class="state-progress" aria-label="Distribucion de cobertura">
+              <span class="progress-green"></span>
+              <span class="progress-red"></span>
+            </div>
+          </article>
+
+          <article class="card downloads-card">
+            <div class="card-head">
+              <h2>Carga Masiva y Descargables</h2>
+            </div>
+
+            <div class="download-list">
+              <button class="download-item" type="button">
+                <span class="download-icon upload material-symbols-outlined">upload</span>
+                <span class="download-copy">
+                  <strong>Cargar Masiva de Turnos</strong>
+                  <small>Descargar Planilla</small>
+                </span>
+              </button>
+
+              <button class="download-item" type="button">
+                <span class="download-icon export material-symbols-outlined">download</span>
+                <span class="download-copy">
+                  <strong>Descargar Estado de Cobertura</strong>
+                  <small>Visualizacion general del periodo</small>
+                </span>
+              </button>
+            </div>
+          </article>
+        </section>
+
+        <section class="tabs-row" aria-label="Filtros por estado">
+          <div class="tabs-shell" role="tablist" aria-label="Estados de cobertura">
+            <button class="tab-button active" type="button" aria-pressed="true" data-view="all">Todas las tiendas</button>
+            <button class="tab-button" type="button" aria-pressed="false" data-view="complete">Completo (1022)</button>
+            <button class="tab-button" type="button" aria-pressed="false" data-view="partial">Parcial (203)</button>
+            <button class="tab-button" type="button" aria-pressed="false" data-view="critical">Critico (775)</button>
+          </div>
+
+          <div class="tabs-info-tooltip" aria-label="Informacion de filtros">
+            <button class="icon-button tabs-info" type="button" aria-label="Informacion de filtros">
+              <span class="material-symbols-outlined">info</span>
+            </button>
+
+            <div class="tabs-info-panel" role="tooltip">
+              <span class="tabs-info-item complete">
+                <span class="material-symbols-outlined">check_circle</span>
+                Completa: 100%
+              </span>
+              <span class="tabs-info-item partial">
+                <span class="material-symbols-outlined">warning</span>
+                Parcial 80% - 99%
+              </span>
+              <span class="tabs-info-item critical">
+                <span class="material-symbols-outlined">cancel</span>
+                Critico 0% - 79%
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <section class="table-card" aria-label="Estado de cobertura por tienda">
+          <table class="coverage-table">
+            <thead id="coverage-table-head"></thead>
+            <tbody id="coverage-table-body"></tbody>
+          </table>
+        </section>
+        </section>
+
+        <section class="page-view detail-screen" data-view-screen="detail" hidden>
+          <header class="page-header detail-header">
+            <div class="breadcrumbs" aria-label="Breadcrumb detalle">
+              <span class="material-symbols-outlined">home</span>
+              <span class="material-symbols-outlined arrow">chevron_right</span>
+              <span>Gestion de Reportes</span>
+              <span class="material-symbols-outlined arrow">chevron_right</span>
+              <button class="breadcrumb-button" type="button" data-back-overview>Carga de Turnos</button>
+              <span class="material-symbols-outlined arrow">chevron_right</span>
+              <strong>Turnos Arequipa</strong>
+            </div>
+
+            <div class="detail-header-row">
+              <h1>Turnos Arequipa</h1>
+            </div>
+          </header>
+
+          <section class="detail-filters-row" aria-label="Filtros detalle">
+            <div class="filter-block detail-period-block">
+              <label>
+                <span class="material-symbols-outlined">calendar_month</span>
+                Periodo
+              </label>
+
+              <div class="period-picker detail-period-picker" data-period-picker>
+                <div class="period-control detail-period-control">
+                  <button type="button" class="period-arrow" aria-label="Periodo anterior detalle" data-period-shift="-1">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                  </button>
+                  <button class="month-trigger detail-static-trigger" type="button" aria-label="Mes detalle">
+                    <span data-month-label>Febrero</span>
+                    <span class="material-symbols-outlined">expand_more</span>
+                  </button>
+                  <div class="year-picker" data-year-picker>
+                    <button class="year-trigger detail-static-trigger" type="button" aria-label="Ano detalle" aria-expanded="false">
+                      <span data-year-label>2025</span>
+                      <span class="material-symbols-outlined">expand_more</span>
+                    </button>
+                    <div class="year-panel" hidden>
+                      <div class="year-list" role="listbox" aria-label="Seleccion de ano detalle"></div>
+                    </div>
+                  </div>
+                  <button type="button" class="period-arrow" aria-label="Periodo siguiente detalle" data-period-shift="1">
+                    <span class="material-symbols-outlined">arrow_forward</span>
+                  </button>
+                </div>
+                <div class="month-panel" hidden>
+                  <div class="month-grid" role="listbox" aria-label="Seleccion de mes detalle">
+                    <button class="month-option" type="button" data-month-index="0">Enero</button>
+                    <button class="month-option active" type="button" data-month-index="1" aria-selected="true">Febrero</button>
+                    <button class="month-option" type="button" data-month-index="2">Marzo</button>
+                    <button class="month-option" type="button" data-month-index="3">Abril</button>
+                    <button class="month-option" type="button" data-month-index="4">Mayo</button>
+                    <button class="month-option" type="button" data-month-index="5">Junio</button>
+                    <button class="month-option" type="button" data-month-index="6">Julio</button>
+                    <button class="month-option" type="button" data-month-index="7">Agosto</button>
+                    <button class="month-option" type="button" data-month-index="8">Septiembre</button>
+                    <button class="month-option" type="button" data-month-index="9">Octubre</button>
+                    <button class="month-option" type="button" data-month-index="10">Noviembre</button>
+                    <button class="month-option" type="button" data-month-index="11">Diciembre</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="filter-block detail-store-block">
+              <label>Tienda</label>
+              <button class="dropdown-trigger detail-store-trigger" type="button" aria-label="Tienda detalle">
+                <span class="dropdown-trigger-text">Arequipa</span>
+                <span class="material-symbols-outlined">expand_more</span>
+              </button>
+            </div>
+          </section>
+
+          <section class="detail-summary-grid" aria-label="Resumen de tienda">
+            <article class="card detail-summary-card">
+              <div class="card-head">
+                <h2>Resumen de Tienda</h2>
+                <button class="icon-button" type="button" aria-label="Informacion de tienda">
+                  <span class="material-symbols-outlined">info</span>
+                </button>
+              </div>
+
+              <div class="coverage-content detail-coverage-content">
+                <div class="donut-chart detail-donut" aria-label="Resumen de semanas">
+                  <div class="donut-center detail-donut-center">
+                    <strong>5</strong>
+                    <span>Semanas</span>
+                  </div>
+                </div>
+
+                <div class="legend detail-store-legend">
+                  <div class="legend-row">
+                    <span class="legend-label"><span class="dot complete"></span>Completa</span>
+                    <strong>3</strong>
+                  </div>
+                  <div class="legend-row">
+                    <span class="legend-label"><span class="dot partial"></span>Parcial</span>
+                    <strong>1</strong>
+                  </div>
+                  <div class="legend-row">
+                    <span class="legend-label"><span class="dot critical"></span>Critico</span>
+                    <strong>1</strong>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="card detail-download-card">
+              <div class="card-head">
+                <h2>Descargar Turnos del Mes</h2>
+              </div>
+              <div class="detail-inline-action">
+                <span class="download-icon export material-symbols-outlined">download</span>
+                <span class="detail-inline-copy">
+                  <strong>104 turnos</strong>
+                  <small>Asistencia &amp; Meta Justa</small>
+                </span>
+              </div>
+            </article>
+
+            <article class="card detail-download-card">
+              <div class="card-head">
+                <h2>Carga Masiva para Tienda</h2>
+              </div>
+              <div class="detail-inline-action">
+                <span class="download-icon upload material-symbols-outlined">upload</span>
+                <span class="detail-inline-copy">
+                  <strong>Carga de Turnos</strong>
+                  <small>Descargar Planilla</small>
+                </span>
+              </div>
+            </article>
+
+            <article class="card detail-download-card">
+              <div class="card-head">
+                <h2>Planilla de Carga</h2>
+              </div>
+              <div class="detail-inline-action">
+                <span class="download-icon detail-purple material-symbols-outlined">download</span>
+                <span class="detail-inline-copy">
+                  <strong>Planilla Semanal</strong>
+                  <small>Para carga turnos</small>
+                </span>
+              </div>
+            </article>
+          </section>
+
+          <section class="table-card detail-table-card" aria-label="Turnos de Arequipa">
+            <div class="detail-table-header">
+              <h2>
+                <span class="material-symbols-outlined">calendar_month</span>
+                Turnos de Arequipa
+              </h2>
+              <div class="detail-table-status">
+                <span>Estado de cobertura:</span>
+                <span class="status-pill partial summary"><span class="material-symbols-outlined">warning</span>Parcial</span>
+              </div>
+            </div>
+
+            <table class="detail-turnos-table">
+              <thead>
+                <tr>
+                  <th>Semana</th>
+                  <th>Cobertura Periodo</th>
+                  <th>Carga y Descarga de Turnos</th>
+                  <th>Generacion de Turnos</th>
+                  <th>Ver Turno</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Semana">02-02-2025</td>
+                  <td data-label="Cobertura Periodo"><span class="status-pill complete"><span class="material-symbols-outlined">check_circle</span>100%</span></td>
+                  <td data-label="Carga y Descarga de Turnos">
+                    <div class="detail-icon-group">
+                      <button class="detail-square-button upload" type="button" aria-label="Subir turnos">
+                        <span class="material-symbols-outlined">upload</span>
+                      </button>
+                      <button class="detail-square-button download" type="button" aria-label="Descargar turnos">
+                        <span class="material-symbols-outlined">download</span>
+                      </button>
+                    </div>
+                  </td>
+                  <td data-label="Generacion de Turnos"><button class="detail-outline-button" type="button"><span class="material-symbols-outlined">calendar_add_on</span>Generar Turnos</button></td>
+                  <td data-label="Ver Turno"><button class="detail-square-button success" type="button" aria-label="Ver turno"><span class="material-symbols-outlined">visibility</span></button></td>
+                  <td data-label="Acciones">
+                    <div class="detail-icon-group">
+                      <button class="detail-square-button edit" type="button" aria-label="Editar"><span class="material-symbols-outlined">edit</span></button>
+                      <button class="detail-square-button danger" type="button" aria-label="Eliminar"><span class="material-symbols-outlined">delete</span></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td data-label="Semana">09-02-2025</td>
+                  <td data-label="Cobertura Periodo"><span class="status-pill partial"><span class="material-symbols-outlined">warning</span>85%</span></td>
+                  <td data-label="Carga y Descarga de Turnos">
+                    <div class="detail-icon-group">
+                      <button class="detail-square-button upload" type="button" aria-label="Subir turnos">
+                        <span class="material-symbols-outlined">upload</span>
+                      </button>
+                      <button class="detail-square-button download" type="button" aria-label="Descargar turnos">
+                        <span class="material-symbols-outlined">download</span>
+                      </button>
+                    </div>
+                  </td>
+                  <td data-label="Generacion de Turnos"><button class="detail-outline-button" type="button"><span class="material-symbols-outlined">calendar_add_on</span>Generar Turnos</button></td>
+                  <td data-label="Ver Turno"><button class="detail-square-button success" type="button" aria-label="Ver turno"><span class="material-symbols-outlined">visibility</span></button></td>
+                  <td data-label="Acciones">
+                    <div class="detail-icon-group">
+                      <button class="detail-square-button edit" type="button" aria-label="Editar"><span class="material-symbols-outlined">edit</span></button>
+                      <button class="detail-square-button danger" type="button" aria-label="Eliminar"><span class="material-symbols-outlined">delete</span></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td data-label="Semana">16-02-2025</td>
+                  <td data-label="Cobertura Periodo"><span class="status-pill critical"><span class="material-symbols-outlined">cancel</span>0%</span></td>
+                  <td data-label="Carga y Descarga de Turnos">
+                    <div class="detail-icon-group">
+                      <button class="detail-square-button upload" type="button" aria-label="Subir turnos">
+                        <span class="material-symbols-outlined">upload</span>
+                      </button>
+                      <button class="detail-square-button disabled" type="button" aria-label="Descarga no disponible" disabled>
+                        <span class="material-symbols-outlined">download</span>
+                      </button>
+                    </div>
+                  </td>
+                  <td data-label="Generacion de Turnos"><button class="detail-outline-button" type="button"><span class="material-symbols-outlined">calendar_add_on</span>Generar Turnos</button></td>
+                  <td data-label="Ver Turno"><button class="detail-square-button disabled" type="button" aria-label="Ver turno no disponible" disabled><span class="material-symbols-outlined">visibility</span></button></td>
+                  <td data-label="Acciones">
+                    <div class="detail-icon-group">
+                      <button class="detail-square-button disabled" type="button" aria-label="Editar no disponible" disabled><span class="material-symbols-outlined">edit</span></button>
+                      <button class="detail-square-button disabled" type="button" aria-label="Eliminar no disponible" disabled><span class="material-symbols-outlined">delete</span></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td data-label="Semana">23-02-2025</td>
+                  <td data-label="Cobertura Periodo"><span class="status-pill complete"><span class="material-symbols-outlined">check_circle</span>100%</span></td>
+                  <td data-label="Carga y Descarga de Turnos">
+                    <div class="detail-icon-group">
+                      <button class="detail-square-button upload" type="button" aria-label="Subir turnos">
+                        <span class="material-symbols-outlined">upload</span>
+                      </button>
+                      <button class="detail-square-button download" type="button" aria-label="Descargar turnos">
+                        <span class="material-symbols-outlined">download</span>
+                      </button>
+                    </div>
+                  </td>
+                  <td data-label="Generacion de Turnos"><button class="detail-outline-button" type="button"><span class="material-symbols-outlined">calendar_add_on</span>Generar Turnos</button></td>
+                  <td data-label="Ver Turno"><button class="detail-square-button success" type="button" aria-label="Ver turno"><span class="material-symbols-outlined">visibility</span></button></td>
+                  <td data-label="Acciones">
+                    <div class="detail-icon-group">
+                      <button class="detail-square-button edit" type="button" aria-label="Editar"><span class="material-symbols-outlined">edit</span></button>
+                      <button class="detail-square-button danger" type="button" aria-label="Eliminar"><span class="material-symbols-outlined">delete</span></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td data-label="Semana">30-02-2025</td>
+                  <td data-label="Cobertura Periodo"><span class="status-pill complete"><span class="material-symbols-outlined">check_circle</span>100%</span></td>
+                  <td data-label="Carga y Descarga de Turnos">
+                    <div class="detail-icon-group">
+                      <button class="detail-square-button upload" type="button" aria-label="Subir turnos">
+                        <span class="material-symbols-outlined">upload</span>
+                      </button>
+                      <button class="detail-square-button download" type="button" aria-label="Descargar turnos">
+                        <span class="material-symbols-outlined">download</span>
+                      </button>
+                    </div>
+                  </td>
+                  <td data-label="Generacion de Turnos"><button class="detail-outline-button" type="button"><span class="material-symbols-outlined">calendar_add_on</span>Generar Turnos</button></td>
+                  <td data-label="Ver Turno"><button class="detail-square-button success" type="button" aria-label="Ver turno"><span class="material-symbols-outlined">visibility</span></button></td>
+                  <td data-label="Acciones">
+                    <div class="detail-icon-group">
+                      <button class="detail-square-button edit" type="button" aria-label="Editar"><span class="material-symbols-outlined">edit</span></button>
+                      <button class="detail-square-button danger" type="button" aria-label="Eliminar"><span class="material-symbols-outlined">delete</span></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const weekColumns = ["02/02/2025", "09/02/2025", "16/02/2025", "23/02/2025", "30/02/2025"];
+    const coverageTableHead = document.getElementById("coverage-table-head");
+    const coverageTableBody = document.getElementById("coverage-table-body");
+    const tabButtons = document.querySelectorAll(".tab-button");
+    const overviewScreen = document.querySelector('[data-view-screen="overview"]');
+    const detailScreen = document.querySelector('[data-view-screen="detail"]');
+
+    const coverageViews = {
+      all: {
+        rows: [
+          {
+            store: "Arequipa",
+            weeks: [
+              { tone: "complete", text: "100%" },
+              { tone: "complete", text: "100%" },
+              { tone: "critical", text: "20%" },
+              { tone: "partial", text: "85%" },
+              { tone: "complete", text: "100%" }
+            ],
+            status: { tone: "partial", text: "Parcial" }
+          },
+          {
+            store: "Baby Plane Las condes",
+            weeks: Array.from({ length: 5 }, () => ({ tone: "complete", text: "100%" })),
+            status: { tone: "complete", text: "Completa" }
+          },
+          {
+            store: "Colloky Alto Las Condes",
+            weeks: Array.from({ length: 5 }, () => ({ tone: "critical", text: "20%" })),
+            status: { tone: "critical", text: "Critico" }
+          },
+          {
+            store: "Colloky Antofagasta",
+            weeks: Array.from({ length: 5 }, () => ({ tone: "complete", text: "100%" })),
+            status: { tone: "complete", text: "Completa" }
+          },
+          {
+            store: "Colloky Costanera Center",
+            weeks: [
+              { tone: "partial", text: "85%" },
+              { tone: "complete", text: "100%" },
+              { tone: "complete", text: "100%" },
+              { tone: "critical", text: "20%" },
+              { tone: "complete", text: "100%" }
+            ],
+            status: { tone: "partial", text: "Parcial" }
+          }
+        ]
+      },
+      complete: {
+        rows: [
+          {
+            store: "Baby Plane Las condes",
+            weeks: Array.from({ length: 5 }, () => ({ tone: "complete", text: "100%" })),
+            status: { tone: "complete", text: "Completa" }
+          },
+          {
+            store: "Colloky Antofagasta",
+            weeks: Array.from({ length: 5 }, () => ({ tone: "complete", text: "100%" })),
+            status: { tone: "complete", text: "Completa" }
+          },
+          {
+            store: "Colloky Costanera Center",
+            weeks: Array.from({ length: 5 }, () => ({ tone: "complete", text: "100%" })),
+            status: { tone: "complete", text: "Completa" }
+          },
+          {
+            store: "Colloky La Florida Center",
+            weeks: Array.from({ length: 5 }, () => ({ tone: "complete", text: "100%" })),
+            status: { tone: "complete", text: "Completa" }
+          },
+          {
+            store: "Colloky Mall Plaza",
+            weeks: Array.from({ length: 5 }, () => ({ tone: "complete", text: "100%" })),
+            status: { tone: "complete", text: "Completa" }
+          }
+        ]
+      },
+      partial: {
+        rows: [
+          {
+            store: "Arequipa",
+            weeks: [
+              { tone: "complete", text: "100%" },
+              { tone: "complete", text: "100%" },
+              { tone: "critical", text: "20%" },
+              { tone: "complete", text: "100%" },
+              { tone: "complete", text: "100%" }
+            ],
+            status: { tone: "partial", text: "Parcial" }
+          },
+          {
+            store: "Colloky Costanera Center",
+            weeks: [
+              { tone: "complete", text: "100%" },
+              { tone: "complete", text: "100%" },
+              { tone: "complete", text: "100%" },
+              { tone: "critical", text: "20%" },
+              { tone: "complete", text: "100%" }
+            ],
+            status: { tone: "partial", text: "Parcial" }
+          },
+          {
+            store: "Colloky Plaza Oeste",
+            weeks: [
+              { tone: "complete", text: "100%" },
+              { tone: "complete", text: "100%" },
+              { tone: "complete", text: "100%" },
+              { tone: "critical", text: "20%" },
+              { tone: "complete", text: "100%" }
+            ],
+            status: { tone: "partial", text: "Parcial" }
+          },
+          {
+            store: "Colloky Plaza Vespucio",
+            weeks: [
+              { tone: "complete", text: "100%" },
+              { tone: "complete", text: "100%" },
+              { tone: "complete", text: "100%" },
+              { tone: "critical", text: "20%" },
+              { tone: "complete", text: "100%" }
+            ],
+            status: { tone: "partial", text: "Parcial" }
+          },
+          {
+            store: "Colloky Costanera Center",
+            weeks: [
+              { tone: "complete", text: "100%" },
+              { tone: "complete", text: "100%" },
+              { tone: "complete", text: "100%" },
+              { tone: "complete", text: "100%" },
+              { tone: "critical", text: "20%" }
+            ],
+            status: { tone: "partial", text: "Parcial" }
+          }
+        ]
+      },
+      critical: {
+        rows: [
+          {
+            store: "Colloky Alto Las Condes",
+            weeks: Array.from({ length: 5 }, () => ({ tone: "critical", text: "20%" })),
+            status: { tone: "critical", text: "Critico" }
+          },
+          {
+            store: "Colloky Estacion Central",
+            weeks: Array.from({ length: 5 }, () => ({ tone: "critical", text: "20%" })),
+            status: { tone: "critical", text: "Critico" }
+          },
+          {
+            store: "Colloky Marina Arauco",
+            weeks: Array.from({ length: 5 }, () => ({ tone: "critical", text: "20%" })),
+            status: { tone: "critical", text: "Critico" }
+          },
+          {
+            store: "Colloky Panoramico",
+            weeks: Array.from({ length: 5 }, () => ({ tone: "critical", text: "20%" })),
+            status: { tone: "critical", text: "Critico" }
+          },
+          {
+            store: "Colloky Alto Las Condes",
+            weeks: Array.from({ length: 5 }, () => ({ tone: "critical", text: "20%" })),
+            status: { tone: "critical", text: "Critico" }
+          }
+        ]
+      }
+    };
+
+    const toneToIcon = {
+      complete: "check_circle",
+      partial: "warning",
+      critical: "cancel"
+    };
+
+    const renderCoveragePill = (cell, summary = false) => `
+      <span class="status-pill ${cell.tone}${summary ? " summary" : ""}">
+        <span class="material-symbols-outlined">${toneToIcon[cell.tone]}</span>${cell.text}
+      </span>
+    `;
+
+    const renderCoverageTable = (viewKey) => {
+      const view = coverageViews[viewKey];
+      if (!view || !coverageTableHead || !coverageTableBody) return;
+
+      const headCells = weekColumns
+        .map((date) => `<th><span>Semana</span>${date.replaceAll("/", "-")}</th>`)
+        .join("");
+
+      coverageTableHead.innerHTML = `
+        <tr>
+          <th class="store-column">Tienda</th>
+          ${headCells}
+          <th class="status-column">Estado Cobertura</th>
+        </tr>
+      `;
+
+      coverageTableBody.innerHTML = view.rows
+        .map((row) => {
+          const weekCells = row.weeks
+            .map((cell, index) => `<td data-label="${weekColumns[index]}">${renderCoveragePill(cell)}</td>`)
+            .join("");
+          const isDetailTarget = row.store === "Arequipa";
+
+          return `
+            <tr>
+              <td data-label="Tienda"><a href="#"${isDetailTarget ? ' data-store-detail="arequipa"' : ""}>${row.store}</a></td>
+              ${weekCells}
+              <td data-label="Estado Cobertura">${renderCoveragePill(row.status, true)}</td>
+            </tr>
+          `;
+        })
+        .join("");
+    };
+
+    const setActiveScreen = (screen) => {
+      const showDetail = screen === "detail";
+      overviewScreen.hidden = showDetail;
+      detailScreen.hidden = !showDetail;
+    };
+
+    tabButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        tabButtons.forEach((item) => {
+          item.classList.remove("active");
+          item.setAttribute("aria-pressed", "false");
+        });
+
+        button.classList.add("active");
+        button.setAttribute("aria-pressed", "true");
+        renderCoverageTable(button.dataset.view || "all");
+      });
+    });
+
+    renderCoverageTable("all");
+    setActiveScreen("overview");
+
+    coverageTableBody?.addEventListener("click", (event) => {
+      const link = event.target.closest('[data-store-detail="arequipa"]');
+      if (!link) return;
+      event.preventDefault();
+      setActiveScreen("detail");
+    });
+
+    document.querySelectorAll("[data-back-overview]").forEach((button) => {
+      button.addEventListener("click", () => setActiveScreen("overview"));
+    });
+
+    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    const maxAvailableYear = 2025;
+    const minAvailableYear = 2020;
+    const periodPickers = [...document.querySelectorAll("[data-period-picker]")];
+
+    const closeAllPeriodPickers = () => {
+      periodPickers.forEach((picker) => {
+        picker.classList.remove("month-open", "year-open");
+        picker.querySelector(".month-trigger")?.setAttribute("aria-expanded", "false");
+        picker.querySelector(".month-panel") && (picker.querySelector(".month-panel").hidden = true);
+        picker.querySelector(".year-trigger")?.setAttribute("aria-expanded", "false");
+        picker.querySelector(".year-panel") && (picker.querySelector(".year-panel").hidden = true);
+      });
+    };
+
+    periodPickers.forEach((picker) => {
+      const monthTrigger = picker.querySelector(".month-trigger");
+      const monthPanel = picker.querySelector(".month-panel");
+      const monthLabel = picker.querySelector("[data-month-label]");
+      const monthOptions = [...picker.querySelectorAll(".month-option")];
+      const yearTrigger = picker.querySelector(".year-trigger");
+      const yearPanel = picker.querySelector(".year-panel");
+      const yearLabel = picker.querySelector("[data-year-label]");
+      const yearList = picker.querySelector(".year-list");
+      const shiftButtons = [...picker.querySelectorAll("[data-period-shift]")];
+      let currentMonthIndex = monthOptions.findIndex((option) => option.classList.contains("active"));
+      let currentYear = Number(yearLabel?.textContent || String(maxAvailableYear));
+
+      const closeMonthPicker = () => {
+        picker.classList.remove("month-open");
+        monthTrigger?.setAttribute("aria-expanded", "false");
+        if (monthPanel) monthPanel.hidden = true;
+      };
+
+      const closeYearPicker = () => {
+        picker.classList.remove("year-open");
+        yearTrigger?.setAttribute("aria-expanded", "false");
+        if (yearPanel) yearPanel.hidden = true;
+      };
+
+      const renderYearOptions = () => {
+        if (!yearList) return;
+
+        const years = Array.from(
+          { length: maxAvailableYear - minAvailableYear + 1 },
+          (_, index) => maxAvailableYear - index
+        );
+
+        yearList.innerHTML = years
+          .map((year) => `
+            <button class="year-option${year === currentYear ? " active" : ""}" type="button" data-year-value="${year}" aria-selected="${year === currentYear}">
+              ${year}
+            </button>
+          `)
+          .join("");
+
+        yearList.querySelectorAll(".year-option").forEach((button) => {
+          button.addEventListener("click", () => {
+            syncYearPicker(Number(button.dataset.yearValue));
+            closeYearPicker();
+          });
+        });
+      };
+
+      const syncYearPicker = (year) => {
+        currentYear = Math.min(maxAvailableYear, Math.max(minAvailableYear, year));
+        if (yearLabel) {
+          yearLabel.textContent = String(currentYear);
+        }
+        renderYearOptions();
+      };
+
+      const syncMonthPicker = (monthIndex) => {
+        currentMonthIndex = monthIndex;
+        if (monthLabel) {
+          monthLabel.textContent = monthNames[monthIndex];
+        }
+
+        monthOptions.forEach((option, index) => {
+          const isActive = index === monthIndex;
+          option.classList.toggle("active", isActive);
+          option.setAttribute("aria-selected", String(isActive));
+        });
+      };
+
+      const openMonthPicker = () => {
+        closeAllPeriodPickers();
+        picker.classList.add("month-open");
+        monthTrigger?.setAttribute("aria-expanded", "true");
+        if (monthPanel) monthPanel.hidden = false;
+      };
+
+      const openYearPicker = () => {
+        closeAllPeriodPickers();
+        picker.classList.add("year-open");
+        yearTrigger?.setAttribute("aria-expanded", "true");
+        if (yearPanel) yearPanel.hidden = false;
+      };
+
+      monthTrigger?.addEventListener("click", () => {
+        if (picker.classList.contains("month-open")) {
+          closeMonthPicker();
+        } else {
+          openMonthPicker();
+        }
+      });
+
+      yearTrigger?.addEventListener("click", () => {
+        if (picker.classList.contains("year-open")) {
+          closeYearPicker();
+        } else {
+          openYearPicker();
+        }
+      });
+
+      monthOptions.forEach((option) => {
+        option.addEventListener("click", () => {
+          syncMonthPicker(Number(option.dataset.monthIndex));
+          closeMonthPicker();
+        });
+      });
+
+      shiftButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const direction = Number(button.dataset.periodShift);
+          let nextMonthIndex = currentMonthIndex + direction;
+          let nextYear = currentYear;
+
+          if (nextMonthIndex < 0) {
+            nextMonthIndex = 11;
+            nextYear -= 1;
+          }
+
+          if (nextMonthIndex > 11) {
+            nextMonthIndex = 0;
+            nextYear += 1;
+          }
+
+          syncYearPicker(nextYear);
+          syncMonthPicker(nextMonthIndex);
+        });
+      });
+
+      if (currentMonthIndex < 0) {
+        currentMonthIndex = 1;
+      }
+
+      renderYearOptions();
+      syncYearPicker(currentYear);
+      syncMonthPicker(currentMonthIndex);
+    });
+
+    const dropdowns = document.querySelectorAll("[data-dropdown]");
+
+    const closeDropdown = (dropdown) => {
+      const trigger = dropdown.querySelector(".dropdown-trigger");
+      const panel = dropdown.querySelector(".dropdown-panel");
+      dropdown.classList.remove("open");
+      trigger?.setAttribute("aria-expanded", "false");
+      if (panel) panel.hidden = true;
+    };
+
+    const openDropdown = (dropdown) => {
+      dropdowns.forEach((item) => {
+        if (item !== dropdown) closeDropdown(item);
+      });
+      closeAllPeriodPickers();
+
+      const trigger = dropdown.querySelector(".dropdown-trigger");
+      const panel = dropdown.querySelector(".dropdown-panel");
+      dropdown.classList.add("open");
+      trigger?.setAttribute("aria-expanded", "true");
+      if (panel) panel.hidden = false;
+    };
+
+    const syncDropdownLabel = (dropdown) => {
+      const label = dropdown.querySelector("[data-dropdown-label]");
+      const items = [...dropdown.querySelectorAll(".dropdown-option input:not([data-select-all])")];
+      const checked = items.filter((input) => input.checked).map((input) => input.value);
+      const placeholder = dropdown.querySelector(".dropdown-trigger-text")?.dataset.placeholder || "";
+
+      if (!label) return;
+
+      if (checked.length === 0) {
+        label.textContent = placeholder;
+        return;
+      }
+
+      if (checked.length === items.length) {
+        label.textContent = "Seleccionar todo";
+        return;
+      }
+
+      label.textContent = checked.length === 1 ? checked[0] : `${checked.length} seleccionados`;
+    };
+
+    dropdowns.forEach((dropdown) => {
+      const trigger = dropdown.querySelector(".dropdown-trigger");
+      const panel = dropdown.querySelector(".dropdown-panel");
+      const search = dropdown.querySelector("[data-dropdown-search]");
+      const selectAll = dropdown.querySelector("[data-select-all]");
+      const options = [...dropdown.querySelectorAll(".dropdown-option")];
+      const itemInputs = [...dropdown.querySelectorAll(".dropdown-option input:not([data-select-all])")];
+      const label = dropdown.querySelector(".dropdown-trigger-text");
+
+      if (label) {
+        label.dataset.placeholder = label.textContent.trim();
+      }
+
+      trigger?.addEventListener("click", () => {
+        if (dropdown.classList.contains("open")) {
+          closeDropdown(dropdown);
+        } else {
+          openDropdown(dropdown);
+          search?.focus();
+        }
+      });
+
+      search?.addEventListener("input", () => {
+        const term = search.value.trim().toLowerCase();
+
+        options.forEach((option) => {
+          if (option.classList.contains("dropdown-option-all")) {
+            option.hidden = false;
+            return;
+          }
+
+          const text = option.dataset.optionText?.toLowerCase() || "";
+          option.hidden = !text.includes(term);
+        });
+      });
+
+      selectAll?.addEventListener("change", () => {
+        itemInputs.forEach((input) => {
+          if (input.closest(".dropdown-option")?.hidden) return;
+          input.checked = selectAll.checked;
+        });
+        syncDropdownLabel(dropdown);
+      });
+
+      itemInputs.forEach((input) => {
+        input.addEventListener("change", () => {
+          if (selectAll) {
+            selectAll.checked = itemInputs.every((item) => item.checked);
+          }
+          syncDropdownLabel(dropdown);
+        });
+      });
+
+      syncDropdownLabel(dropdown);
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!periodPickers.some((picker) => picker.contains(event.target))) {
+        closeAllPeriodPickers();
+      }
+
+      dropdowns.forEach((dropdown) => {
+        if (dropdown.contains(event.target)) return;
+        closeDropdown(dropdown);
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      closeAllPeriodPickers();
+      dropdowns.forEach((dropdown) => closeDropdown(dropdown));
+    });
+  </script>
+</body>
+</html>
