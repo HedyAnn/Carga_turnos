@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -143,21 +143,21 @@
                     <input type="checkbox" data-select-all />
                     <span>Seleccionar todo</span>
                   </label>
-                  <label class="dropdown-option" data-option-text="Zona norte Bogotá">
-                    <input type="checkbox" value="Zona norte Bogotá" />
-                    <span>Zona norte Bogotá</span>
+                  <label class="dropdown-option" data-option-text="Zona norte BogotÃƒÆ’Ã‚Â¡">
+                    <input type="checkbox" value="Zona norte BogotÃƒÆ’Ã‚Â¡" />
+                    <span>Zona norte BogotÃƒÆ’Ã‚Â¡</span>
                   </label>
-                  <label class="dropdown-option" data-option-text="Zona centro Bogotá">
-                    <input type="checkbox" value="Zona centro Bogotá" />
-                    <span>Zona centro Bogotá</span>
+                  <label class="dropdown-option" data-option-text="Zona centro BogotÃƒÆ’Ã‚Â¡">
+                    <input type="checkbox" value="Zona centro BogotÃƒÆ’Ã‚Â¡" />
+                    <span>Zona centro BogotÃƒÆ’Ã‚Â¡</span>
                   </label>
                   <label class="dropdown-option" data-option-text="Tiendas Colombia">
                     <input type="checkbox" value="Tiendas Colombia" />
                     <span>Tiendas Colombia</span>
                   </label>
-                  <label class="dropdown-option" data-option-text="Tiendas Bogotá">
-                    <input type="checkbox" value="Tiendas Bogotá" />
-                    <span>Tiendas Bogotá</span>
+                  <label class="dropdown-option" data-option-text="Tiendas BogotÃƒÆ’Ã‚Â¡">
+                    <input type="checkbox" value="Tiendas BogotÃƒÆ’Ã‚Â¡" />
+                    <span>Tiendas BogotÃƒÆ’Ã‚Â¡</span>
                   </label>
                 </div>
               </div>
@@ -712,98 +712,56 @@
             </div>
           </div>
 
-          <div class="filter-block">
-            <label for="group-trigger">Grupo</label>
-            <div class="custom-dropdown" data-dropdown>
-              <button id="group-trigger" class="dropdown-trigger" type="button" aria-expanded="false" aria-controls="group-panel">
-                <span class="dropdown-trigger-text" data-dropdown-label>Seleccionar Grupo</span>
+          <div class="filter-block generation-week-block">
+            <label for="generation-week">Semana</label>
+            <div class="custom-dropdown generation-week-dropdown" data-generation-week-dropdown>
+              <button id="generation-week" class="dropdown-trigger generation-static-trigger" type="button" aria-expanded="false" aria-controls="generation-week-panel">
+                <span class="dropdown-trigger-text" data-generation-week-label>02-02-2025</span>
                 <span class="material-symbols-outlined">expand_more</span>
               </button>
 
-              <div id="group-panel" class="dropdown-panel" hidden>
-                <div class="dropdown-search">
-                  <span class="material-symbols-outlined">search</span>
-                  <input type="text" placeholder="Buscar grupo" data-dropdown-search />
-                </div>
-
-                <div class="dropdown-options" role="listbox" aria-label="Opciones de grupo">
-                  <label class="dropdown-option dropdown-option-all" data-option-text="Seleccionar todo">
-                    <input type="checkbox" data-select-all />
-                    <span>Seleccionar todo</span>
-                  </label>
-                  <label class="dropdown-option" data-option-text="Zona norte Bogotá">
-                    <input type="checkbox" value="Zona norte Bogotá" />
-                    <span>Zona norte Bogotá</span>
-                  </label>
-                  <label class="dropdown-option" data-option-text="Zona centro Bogotá">
-                    <input type="checkbox" value="Zona centro Bogotá" />
-                    <span>Zona centro Bogotá</span>
-                  </label>
-                  <label class="dropdown-option" data-option-text="Tiendas Colombia">
-                    <input type="checkbox" value="Tiendas Colombia" />
-                    <span>Tiendas Colombia</span>
-                  </label>
-                  <label class="dropdown-option" data-option-text="Tiendas Bogotá">
-                    <input type="checkbox" value="Tiendas Bogotá" />
-                    <span>Tiendas Bogotá</span>
-                  </label>
+              <div id="generation-week-panel" class="dropdown-panel generation-week-panel" hidden>
+                <div class="generation-week-options" role="listbox" aria-label="Opciones de semana">
+                  <button class="generation-week-option active" type="button" data-generation-week-option="02-02-2025" aria-selected="true">02-02-2025</button>
+                  <button class="generation-week-option" type="button" data-generation-week-option="09-02-2025" aria-selected="false">09-02-2025</button>
+                  <button class="generation-week-option" type="button" data-generation-week-option="16-02-2025" aria-selected="false">16-02-2025</button>
+                  <button class="generation-week-option" type="button" data-generation-week-option="23-02-2025" aria-selected="false">23-02-2025</button>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="filter-block">
-            <label for="store-trigger">Tienda</label>
-            <div class="custom-dropdown" data-dropdown>
-              <button id="store-trigger" class="dropdown-trigger" type="button" aria-expanded="false" aria-controls="store-panel">
-                <span class="dropdown-trigger-text" data-dropdown-label>Seleccionar Tienda</span>
+          <div class="filter-block generation-store-block">
+            <label>Tienda</label>
+            <div class="custom-dropdown detail-store-dropdown generation-store-dropdown" data-generation-store-dropdown>
+              <button id="generation-store" class="dropdown-trigger detail-store-trigger generation-static-trigger" type="button" aria-label="Tienda generacion" aria-expanded="false">
+                <span class="dropdown-trigger-text" data-generation-store-label>Seleccionar Tienda</span>
                 <span class="material-symbols-outlined">expand_more</span>
               </button>
 
-              <div id="store-panel" class="dropdown-panel" hidden>
-                <div class="dropdown-search">
+              <div class="dropdown-panel detail-store-panel generation-store-panel" hidden>
+                <div class="dropdown-search detail-store-search">
                   <span class="material-symbols-outlined">search</span>
-                  <input type="text" placeholder="Buscar tienda" data-dropdown-search />
+                  <input type="text" placeholder="Buscar tienda" data-generation-store-search />
                 </div>
 
-                <div class="dropdown-options" role="listbox" aria-label="Opciones de tienda">
-                  <label class="dropdown-option dropdown-option-all" data-option-text="Seleccionar todo">
-                    <input type="checkbox" data-select-all />
-                    <span>Seleccionar todo</span>
-                  </label>
-                  <label class="dropdown-option" data-option-text="Arequipa">
-                    <input type="checkbox" value="Arequipa" />
-                    <span>Arequipa</span>
-                  </label>
-                  <label class="dropdown-option" data-option-text="Baby Plane Las Condes">
-                    <input type="checkbox" value="Baby Plane Las Condes" />
-                    <span>Baby Plane Las Condes</span>
-                  </label>
-                  <label class="dropdown-option" data-option-text="Colloky Alto Las Condes">
-                    <input type="checkbox" value="Colloky Alto Las Condes" />
-                    <span>Colloky Alto Las Condes</span>
-                  </label>
-                  <label class="dropdown-option" data-option-text="Colloky Antofagasta">
-                    <input type="checkbox" value="Colloky Antofagasta" />
-                    <span>Colloky Antofagasta</span>
-                  </label>
-                </div>
+                <div class="dropdown-options detail-store-options" role="listbox" aria-label="Opciones de tienda generacion" data-generation-store-options></div>
               </div>
             </div>
           </div>
+
         </section>
-
           <section class="generation-workspace" aria-label="Generacion de turnos workspace">
             <aside class="card generation-vendors-card">
               <div class="generation-vendors-head">Vendedores</div>
-              <div class="generation-vendors-list">
-                <label class="generation-vendor-row"><input type="checkbox" /> <span>Seleccionar Todo</span></label>
-                <label class="generation-vendor-row"><input type="checkbox" /> <span>Javier Soto Perez</span></label>
-                <label class="generation-vendor-row"><input type="checkbox" /> <span>Viviana Nunez Toledo</span></label>
-                <label class="generation-vendor-row"><input type="checkbox" /> <span>Juan Carrasco Soto</span></label>
-                <label class="generation-vendor-row"><input type="checkbox" /> <span>Sandra Perez Sanchez</span></label>
-                <label class="generation-vendor-row"><input type="checkbox" /> <span>Andrea Hernandez Soto</span></label>
-                <label class="generation-vendor-row"><input type="checkbox" /> <span>Luis Martinez Herrera</span></label>
+              <div class="generation-vendors-list" data-generation-vendors-list>
+                <label class="generation-vendor-row"><input type="checkbox" data-generation-select-all /> <span>Seleccionar Todo</span></label>
+                <label class="generation-vendor-row"><input type="checkbox" data-generation-vendor /> <span>Javier Soto Perez</span></label>
+                <label class="generation-vendor-row"><input type="checkbox" data-generation-vendor /> <span>Viviana Nunez Toledo</span></label>
+                <label class="generation-vendor-row"><input type="checkbox" data-generation-vendor /> <span>Juan Carrasco Soto</span></label>
+                <label class="generation-vendor-row"><input type="checkbox" data-generation-vendor /> <span>Sandra Perez Sanchez</span></label>
+                <label class="generation-vendor-row"><input type="checkbox" data-generation-vendor /> <span>Andrea Hernandez Soto</span></label>
+                <label class="generation-vendor-row"><input type="checkbox" data-generation-vendor /> <span>Luis Martinez Herrera</span></label>
               </div>
             </aside>
 
@@ -831,7 +789,9 @@
                   <span>DOM 08</span>
                 </div>
 
-                <div class="generation-empty-state">
+                <div class="generation-board-body" data-generation-board-body hidden></div>
+
+                <div class="generation-empty-state" data-generation-empty-state>
                   <div class="generation-empty-icon material-symbols-outlined">calendar_month</div>
                   <strong>Selecciona vendedores y asigna turnos</strong>
                   <p>Usa el selector de la izquierda para elegir vendedores y asignar turnos.</p>
@@ -900,6 +860,10 @@
     const detailStorePanel = detailStoreDropdown?.querySelector(".detail-store-panel");
     const detailStoreSearch = detailStoreDropdown?.querySelector("[data-detail-store-search]");
     const detailStoreOptions = detailStoreDropdown?.querySelector("[data-detail-store-options]");
+    const generationWeekDropdown = document.querySelector("[data-generation-week-dropdown]");
+    const generationWeekTrigger = generationWeekDropdown?.querySelector("#generation-week");
+    const generationWeekPanel = generationWeekDropdown?.querySelector(".generation-week-panel");
+    const generationWeekOptions = generationWeekDropdown?.querySelector(".generation-week-options");
     const generationWeekLabel = document.querySelector("[data-generation-week-label]");
     const generationStoreDropdown = document.querySelector("[data-generation-store-dropdown]");
     const generationStoreTrigger = generationStoreDropdown?.querySelector(".detail-store-trigger");
@@ -907,6 +871,11 @@
     const generationStoreSearch = generationStoreDropdown?.querySelector("[data-generation-store-search]");
     const generationStoreOptions = generationStoreDropdown?.querySelector("[data-generation-store-options]");
     const generationStoreLabel = document.querySelector("[data-generation-store-label]");
+    const generationVendorsList = document.querySelector("[data-generation-vendors-list]");
+    const generationSelectAll = generationVendorsList?.querySelector("[data-generation-select-all]");
+    const generationVendorCheckboxes = generationVendorsList ? [...generationVendorsList.querySelectorAll("[data-generation-vendor]")] : [];
+    const generationBoardBody = document.querySelector("[data-generation-board-body]");
+    const generationEmptyState = document.querySelector("[data-generation-empty-state]");
     const generationBreadcrumbStore = document.querySelector("[data-generation-breadcrumb-store]");
     const generationButtons = document.querySelectorAll("[data-open-generation]");
 
@@ -1137,6 +1106,7 @@
 
       if (generationStoreLabel) generationStoreLabel.textContent = safeStore;
       if (generationWeekLabel) generationWeekLabel.textContent = safeWeek;
+      renderGenerationWeekOptions?.(safeWeek);
       if (generationBreadcrumbStore) generationBreadcrumbStore.textContent = `Turnos ${safeStore}`;
       renderGenerationStoreOptions?.(generationStoreSearch?.value || "");
     };
@@ -1156,6 +1126,7 @@
       if (detailStorePanel) detailStorePanel.hidden = false;
       if (detailStoreSearch) detailStoreSearch.value = "";
       renderDetailStoreOptions();
+    renderGenerationWeekOptions();
       detailStoreSearch?.focus();
     };
 
@@ -1490,6 +1461,33 @@
       syncDropdownLabel(dropdown);
     });
 
+    const closeGenerationWeekDropdown = () => {
+      generationWeekDropdown?.classList.remove("open");
+      generationWeekTrigger?.setAttribute("aria-expanded", "false");
+      if (generationWeekPanel) generationWeekPanel.hidden = true;
+    };
+
+    const renderGenerationWeekOptions = (activeWeek) => {
+      if (!generationWeekOptions) return;
+      const currentWeek = activeWeek || generationWeekLabel?.textContent?.trim() || "02-02-2025";
+      generationWeekOptions.querySelectorAll("[data-generation-week-option]").forEach((button) => {
+        const isActive = button.dataset.generationWeekOption === currentWeek;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-selected", String(isActive));
+      });
+    };
+
+    const openGenerationWeekDropdown = () => {
+      closeAllPeriodPickers();
+      dropdowns.forEach((dropdown) => closeDropdown(dropdown));
+      closeDetailStoreDropdown();
+      closeGenerationStoreDropdown();
+      generationWeekDropdown?.classList.add("open");
+      generationWeekTrigger?.setAttribute("aria-expanded", "true");
+      if (generationWeekPanel) generationWeekPanel.hidden = false;
+      renderGenerationWeekOptions();
+    };
+
     const closeGenerationStoreDropdown = () => {
       generationStoreDropdown?.classList.remove("open");
       generationStoreTrigger?.setAttribute("aria-expanded", "false");
@@ -1537,7 +1535,43 @@
       if (generationBreadcrumbStore) generationBreadcrumbStore.textContent = `Turnos ${safeStoreName}`;
       renderGenerationStoreOptions(generationStoreSearch?.value || "");
     };
+
+    const getGenerationSelectedVendors = () => generationVendorCheckboxes
+      .filter((checkbox) => checkbox.checked)
+      .map((checkbox) => checkbox.closest(".generation-vendor-row")?.querySelector("span")?.textContent?.trim())
+      .filter(Boolean);
+
+    const renderGenerationBoard = () => {
+      if (!generationBoardBody || !generationEmptyState) return;
+
+      const selectedVendors = getGenerationSelectedVendors();
+      const hasSelectedVendors = selectedVendors.length > 0;
+
+      generationBoardBody.hidden = !hasSelectedVendors;
+      generationEmptyState.hidden = hasSelectedVendors;
+      generationBoardBody.style.display = hasSelectedVendors ? "grid" : "none";
+      generationEmptyState.style.display = hasSelectedVendors ? "none" : "grid";
+
+      if (!hasSelectedVendors) {
+        generationBoardBody.innerHTML = "";
+        return;
+      }
+
+      generationBoardBody.innerHTML = selectedVendors.map((vendorName) => `
+        <div class="generation-board-row">
+          <div class="generation-board-vendor">${vendorName}</div>
+          <button class="generation-board-cell" type="button">Asignar Turno</button>
+          <button class="generation-board-cell" type="button">Asignar Turno</button>
+          <button class="generation-board-cell" type="button">Asignar Turno</button>
+          <button class="generation-board-cell" type="button">Asignar Turno</button>
+          <button class="generation-board-cell" type="button">Asignar Turno</button>
+          <button class="generation-board-cell" type="button">Asignar Turno</button>
+          <button class="generation-board-cell" type="button">Asignar Turno</button>
+        </div>
+      `).join("");
+    };
     renderDetailStoreOptions();
+    renderGenerationWeekOptions();
 
     detailStoreTrigger?.addEventListener("click", () => {
       if (detailStoreDropdown?.classList.contains("open")) {
@@ -1545,6 +1579,22 @@
       } else {
         openDetailStoreDropdown();
       }
+    });
+
+    generationWeekTrigger?.addEventListener("click", () => {
+      if (generationWeekDropdown?.classList.contains("open")) {
+        closeGenerationWeekDropdown();
+      } else {
+        openGenerationWeekDropdown();
+      }
+    });
+
+    generationWeekOptions?.addEventListener("click", (event) => {
+      const option = event.target.closest("[data-generation-week-option]");
+      if (!option) return;
+      if (generationWeekLabel) generationWeekLabel.textContent = option.dataset.generationWeekOption;
+      renderGenerationWeekOptions(option.dataset.generationWeekOption);
+      closeGenerationWeekDropdown();
     });
 
     generationStoreTrigger?.addEventListener("click", () => {
@@ -1576,6 +1626,23 @@
       setGenerationStore(option.dataset.generationStoreOption);
       closeGenerationStoreDropdown();
     });
+    generationSelectAll?.addEventListener("change", () => {
+      generationVendorCheckboxes.forEach((checkbox) => {
+        checkbox.checked = generationSelectAll.checked;
+      });
+      renderGenerationBoard();
+    });
+
+    generationVendorCheckboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", () => {
+        if (!generationSelectAll) return;
+        generationSelectAll.checked = generationVendorCheckboxes.length > 0 && generationVendorCheckboxes.every((item) => item.checked);
+        renderGenerationBoard();
+      });
+    });
+
+    renderGenerationBoard();
+
 
     document.addEventListener("click", (event) => {
       if (!periodPickers.some((picker) => picker.contains(event.target))) {
@@ -1606,7 +1673,6 @@
   </script>
 </body>
 </html>
-
 
 
 
