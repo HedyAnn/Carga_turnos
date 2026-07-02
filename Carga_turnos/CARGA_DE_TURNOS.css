@@ -3387,3 +3387,250 @@ a {
     flex: 1 1 auto;
   }
 }
+
+.state-card .state-metric p {
+  font-size: 17px;
+}
+
+.downloads-card .download-copy strong {
+  font-size: 17px;
+}
+
+.downloads-card .download-item {
+  align-items: center;
+}
+
+.tabs-shell {
+  background: #e5e7eb;
+}
+
+@media (max-width: 760px) {
+  .state-card .state-metric p,
+  .downloads-card .download-copy strong {
+    font-size: 13px;
+  }
+}
+
+.detail-download-card {
+  padding: 22px 20px;
+}
+
+.detail-inline-copy small {
+  font-size: 14px;
+}
+
+.detail-summary-copy {
+  align-self: start;
+}
+
+.detail-summary-copy .card-head {
+  align-items: flex-start;
+}
+
+.detail-summary-card .card-head,
+.detail-summary-card .summary-info-tooltip,
+.detail-summary-card .icon-button {
+  align-items: flex-start;
+}
+
+.generation-period-control,
+#generation-week,
+#generation-store {
+  height: 48px;
+  border-radius: 12px;
+}
+
+.generation-period-control {
+  grid-template-columns: 48px minmax(0, 1fr) 92px 48px;
+}
+
+#generation-week,
+#generation-store {
+  padding: 0 14px;
+}
+
+#generation-week > span:first-child,
+#generation-store > span:first-child,
+.generation-period-picker .month-trigger,
+.generation-period-picker .year-trigger {
+  color: #404f60;
+}
+
+#generation-week:hover,
+#generation-store:hover,
+.generation-period-picker .period-control:hover {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(1, 96, 133, 0.12);
+}
+
+.generation-period-picker .period-arrow {
+  display: grid;
+  place-items: center;
+}
+
+@media (max-width: 760px) {
+  .generation-period-control,
+  #generation-week,
+  #generation-store {
+    height: 36px;
+    border-radius: 8px;
+  }
+
+  .generation-period-control {
+    grid-template-columns: 36px minmax(0, 1fr) 68px 36px;
+  }
+}
+
+button#generation-store.detail-store-trigger.generation-static-trigger {
+  height: 48px;
+}
+
+@media (max-width: 760px) {
+  button#generation-store.detail-store-trigger.generation-static-trigger {
+    height: 36px;
+  }
+}
+
+.generation-filters-row > .filter-block.period-block {
+  width: 340px;
+}
+
+@media (max-width: 1180px) {
+  .generation-filters-row > .filter-block.period-block {
+    width: 100%;
+  }
+}
+
+.generation-filters-row {
+  grid-template-columns: minmax(240px, 258px) minmax(220px, 260px) minmax(240px, 260px) auto;
+}
+
+.generation-filters-row > .filter-block.period-block {
+  width: 258px;
+}
+
+.generation-store-block,
+.generation-store-dropdown,
+.generation-store-panel {
+  width: 100%;
+}
+
+.generation-period-picker,
+.generation-period-control {
+  width: 100%;
+}
+
+#generation-week,
+button#generation-store.detail-store-trigger.generation-static-trigger,
+.generation-period-control,
+.generation-period-picker .month-trigger,
+.generation-period-picker .year-trigger {
+  height: 38px;
+  border-radius: 8px;
+}
+
+.generation-period-control {
+  grid-template-columns: 40px minmax(0, 1fr) 74px 40px;
+}
+
+#generation-week > span:first-child,
+#generation-store > span:first-child,
+.generation-period-picker .month-trigger,
+.generation-period-picker .year-trigger {
+  color: #404f60;
+}
+
+.generation-store-dropdown.open .detail-store-trigger {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(1, 96, 133, 0.12);
+}
+
+.generation-store-dropdown.open .detail-store-trigger .material-symbols-outlined {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 1180px) {
+  .generation-filters-row {
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
+  }
+
+  .generation-filters-row > .filter-block.period-block {
+    width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  #generation-week,
+  button#generation-store.detail-store-trigger.generation-static-trigger,
+  .generation-period-control,
+  .generation-period-picker .month-trigger,
+  .generation-period-picker .year-trigger {
+    height: 36px;
+  }
+
+  .generation-period-control {
+    grid-template-columns: 36px minmax(0, 1fr) 68px 36px;
+  }
+}
+
+.generation-filters-row {
+  grid-template-columns: 258px minmax(220px, 260px) 260px auto;
+  align-items: end;
+}
+
+.generation-filters-row > .detail-period-block,
+.generation-filters-row > .generation-store-block {
+  width: 100%;
+}
+
+.generation-filters-row .detail-period-picker,
+.generation-filters-row .detail-period-control,
+.generation-filters-row .detail-store-dropdown,
+.generation-filters-row .detail-store-trigger {
+  width: 100%;
+}
+
+.generation-filters-row .detail-period-control,
+.generation-filters-row .detail-store-trigger,
+.generation-filters-row .detail-static-trigger {
+  height: 38px;
+  border-radius: 8px;
+}
+
+.generation-filters-row .detail-period-control {
+  grid-template-columns: 40px minmax(0, 1fr) 74px 40px;
+}
+
+.generation-filters-row .detail-store-dropdown.open .detail-store-trigger,
+.generation-filters-row .detail-period-picker.month-open .detail-period-control,
+.generation-filters-row .detail-period-picker.year-open .detail-period-control {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(1, 96, 133, 0.12);
+}
+
+.generation-filters-row .detail-store-trigger .dropdown-trigger-text,
+.generation-filters-row .detail-static-trigger {
+  color: #404f60;
+}
+
+@media (max-width: 1180px) {
+  .generation-filters-row {
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .generation-filters-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.generation-filters-row {
+  min-height: 77px;
+}
+
+@media (max-width: 1180px) {
+  .generation-filters-row {
+    min-height: 0;
+  }
+}

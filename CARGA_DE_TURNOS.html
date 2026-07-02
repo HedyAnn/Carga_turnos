@@ -659,82 +659,139 @@
             <h1>Generacion de Turnos</h1>
           </header>
 
-          <section class="generation-filters-row" aria-label="Filtros generacion">
-            <div class="filter-block period-block detail-period-block">
-              <label for="generation-period-month">
-                <span class="material-symbols-outlined">calendar_month</span>
-                Periodo
-              </label>
+        <section class="filters-row" aria-label="Filtros">
+          <div class="filter-block period-block detail-period-block">
+            <label for="period-month">
+              <span class="material-symbols-outlined">calendar_month</span>
+              Periodo
+            </label>
 
-              <div class="period-picker detail-period-picker generation-period-picker" data-period-picker>
-                <div class="period-control detail-period-control generation-period-control">
-                  <button type="button" class="period-arrow" aria-label="Periodo anterior" data-period-shift="-1">
-                    <span class="material-symbols-outlined">arrow_back</span>
-                  </button>
-                  <button id="generation-period-month" class="month-trigger detail-static-trigger" type="button" aria-label="Mes" aria-expanded="false" aria-controls="generation-month-panel">
-                    <span data-month-label>Febrero</span>
+            <div class="period-picker" data-period-picker>
+              <div class="period-control">
+                <button type="button" class="period-arrow" aria-label="Periodo anterior" data-period-shift="-1">
+                  <span class="material-symbols-outlined">arrow_back</span>
+                </button>
+
+                <button id="period-month" class="month-trigger" type="button" aria-label="Mes" aria-expanded="false" aria-controls="month-panel">
+                  <span data-month-label>Febrero</span>
+                  <span class="material-symbols-outlined">expand_more</span>
+                </button>
+
+                <div class="year-picker" data-year-picker>
+                  <button id="period-year" class="year-trigger" type="button" aria-label="Ano" aria-expanded="false" aria-controls="year-panel">
+                    <span data-year-label>2025</span>
                     <span class="material-symbols-outlined">expand_more</span>
                   </button>
-                  <div class="year-picker" data-year-picker>
-                    <button class="year-trigger detail-static-trigger" type="button" aria-label="Ano" aria-expanded="false" aria-controls="generation-year-panel">
-                      <span data-year-label>2025</span>
-                      <span class="material-symbols-outlined">expand_more</span>
-                    </button>
-                    <div id="generation-year-panel" class="year-panel" hidden>
-                      <div class="year-list" role="listbox" aria-label="Seleccion de ano"></div>
-                    </div>
+
+                  <div id="year-panel" class="year-panel" hidden>
+                    <div class="year-list" role="listbox" aria-label="Seleccion de ano"></div>
                   </div>
-                  <button type="button" class="period-arrow" aria-label="Periodo siguiente" data-period-shift="1">
-                    <span class="material-symbols-outlined">arrow_forward</span>
-                  </button>
                 </div>
 
-                <div id="generation-month-panel" class="month-panel" hidden>
-                  <div class="month-grid" role="listbox" aria-label="Seleccion de mes">
-                    <button class="month-option" type="button" data-month-index="0">Enero</button>
-                    <button class="month-option active" type="button" data-month-index="1" aria-selected="true">Febrero</button>
-                    <button class="month-option" type="button" data-month-index="2">Marzo</button>
-                    <button class="month-option" type="button" data-month-index="3">Abril</button>
-                    <button class="month-option" type="button" data-month-index="4">Mayo</button>
-                    <button class="month-option" type="button" data-month-index="5">Junio</button>
-                    <button class="month-option" type="button" data-month-index="6">Julio</button>
-                    <button class="month-option" type="button" data-month-index="7">Agosto</button>
-                    <button class="month-option" type="button" data-month-index="8">Septiembre</button>
-                    <button class="month-option" type="button" data-month-index="9">Octubre</button>
-                    <button class="month-option" type="button" data-month-index="10">Noviembre</button>
-                    <button class="month-option" type="button" data-month-index="11">Diciembre</button>
-                  </div>
+                <button type="button" class="period-arrow" aria-label="Periodo siguiente" data-period-shift="1">
+                  <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+              </div>
+
+              <div id="month-panel" class="month-panel" hidden>
+                <div class="month-grid" role="listbox" aria-label="Seleccion de mes">
+                  <button class="month-option" type="button" data-month-index="0">Enero</button>
+                  <button class="month-option active" type="button" data-month-index="1" aria-selected="true">Febrero</button>
+                  <button class="month-option" type="button" data-month-index="2">Marzo</button>
+                  <button class="month-option" type="button" data-month-index="3">Abril</button>
+                  <button class="month-option" type="button" data-month-index="4">Mayo</button>
+                  <button class="month-option" type="button" data-month-index="5">Junio</button>
+                  <button class="month-option" type="button" data-month-index="6">Julio</button>
+                  <button class="month-option" type="button" data-month-index="7">Agosto</button>
+                  <button class="month-option" type="button" data-month-index="8">Septiembre</button>
+                  <button class="month-option" type="button" data-month-index="9">Octubre</button>
+                  <button class="month-option" type="button" data-month-index="10">Noviembre</button>
+                  <button class="month-option" type="button" data-month-index="11">Diciembre</button>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="filter-block">
-              <label for="generation-week">Semana</label>
-              <button id="generation-week" class="dropdown-trigger generation-static-trigger" type="button">
-                <span data-generation-week-label>02-02-2025</span>
+          <div class="filter-block">
+            <label for="group-trigger">Grupo</label>
+            <div class="custom-dropdown" data-dropdown>
+              <button id="group-trigger" class="dropdown-trigger" type="button" aria-expanded="false" aria-controls="group-panel">
+                <span class="dropdown-trigger-text" data-dropdown-label>Seleccionar Grupo</span>
                 <span class="material-symbols-outlined">expand_more</span>
               </button>
-            </div>
 
-            <div class="filter-block">
-              <label for="generation-store">Tienda</label>
-              <button id="generation-store" class="dropdown-trigger detail-store-trigger generation-static-trigger" type="button">
-                <span data-generation-store-label>Arequipa</span>
+              <div id="group-panel" class="dropdown-panel" hidden>
+                <div class="dropdown-search">
+                  <span class="material-symbols-outlined">search</span>
+                  <input type="text" placeholder="Buscar grupo" data-dropdown-search />
+                </div>
+
+                <div class="dropdown-options" role="listbox" aria-label="Opciones de grupo">
+                  <label class="dropdown-option dropdown-option-all" data-option-text="Seleccionar todo">
+                    <input type="checkbox" data-select-all />
+                    <span>Seleccionar todo</span>
+                  </label>
+                  <label class="dropdown-option" data-option-text="Zona norte Bogotá">
+                    <input type="checkbox" value="Zona norte Bogotá" />
+                    <span>Zona norte Bogotá</span>
+                  </label>
+                  <label class="dropdown-option" data-option-text="Zona centro Bogotá">
+                    <input type="checkbox" value="Zona centro Bogotá" />
+                    <span>Zona centro Bogotá</span>
+                  </label>
+                  <label class="dropdown-option" data-option-text="Tiendas Colombia">
+                    <input type="checkbox" value="Tiendas Colombia" />
+                    <span>Tiendas Colombia</span>
+                  </label>
+                  <label class="dropdown-option" data-option-text="Tiendas Bogotá">
+                    <input type="checkbox" value="Tiendas Bogotá" />
+                    <span>Tiendas Bogotá</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-block">
+            <label for="store-trigger">Tienda</label>
+            <div class="custom-dropdown" data-dropdown>
+              <button id="store-trigger" class="dropdown-trigger" type="button" aria-expanded="false" aria-controls="store-panel">
+                <span class="dropdown-trigger-text" data-dropdown-label>Seleccionar Tienda</span>
                 <span class="material-symbols-outlined">expand_more</span>
               </button>
-            </div>
 
-            <div class="generation-header-actions">
-              <button class="detail-outline-button generation-preview-button" type="button">
-                <span class="material-symbols-outlined">visibility</span>
-                Vista Previa
-              </button>
-              <button class="detail-primary-button generation-save-button" type="button">
-                <span class="material-symbols-outlined">save</span>
-                Guardar Cambios
-              </button>
+              <div id="store-panel" class="dropdown-panel" hidden>
+                <div class="dropdown-search">
+                  <span class="material-symbols-outlined">search</span>
+                  <input type="text" placeholder="Buscar tienda" data-dropdown-search />
+                </div>
+
+                <div class="dropdown-options" role="listbox" aria-label="Opciones de tienda">
+                  <label class="dropdown-option dropdown-option-all" data-option-text="Seleccionar todo">
+                    <input type="checkbox" data-select-all />
+                    <span>Seleccionar todo</span>
+                  </label>
+                  <label class="dropdown-option" data-option-text="Arequipa">
+                    <input type="checkbox" value="Arequipa" />
+                    <span>Arequipa</span>
+                  </label>
+                  <label class="dropdown-option" data-option-text="Baby Plane Las Condes">
+                    <input type="checkbox" value="Baby Plane Las Condes" />
+                    <span>Baby Plane Las Condes</span>
+                  </label>
+                  <label class="dropdown-option" data-option-text="Colloky Alto Las Condes">
+                    <input type="checkbox" value="Colloky Alto Las Condes" />
+                    <span>Colloky Alto Las Condes</span>
+                  </label>
+                  <label class="dropdown-option" data-option-text="Colloky Antofagasta">
+                    <input type="checkbox" value="Colloky Antofagasta" />
+                    <span>Colloky Antofagasta</span>
+                  </label>
+                </div>
+              </div>
             </div>
-          </section>
+          </div>
+        </section>
 
           <section class="generation-workspace" aria-label="Generacion de turnos workspace">
             <aside class="card generation-vendors-card">
@@ -844,6 +901,11 @@
     const detailStoreSearch = detailStoreDropdown?.querySelector("[data-detail-store-search]");
     const detailStoreOptions = detailStoreDropdown?.querySelector("[data-detail-store-options]");
     const generationWeekLabel = document.querySelector("[data-generation-week-label]");
+    const generationStoreDropdown = document.querySelector("[data-generation-store-dropdown]");
+    const generationStoreTrigger = generationStoreDropdown?.querySelector(".detail-store-trigger");
+    const generationStorePanel = generationStoreDropdown?.querySelector(".generation-store-panel");
+    const generationStoreSearch = generationStoreDropdown?.querySelector("[data-generation-store-search]");
+    const generationStoreOptions = generationStoreDropdown?.querySelector("[data-generation-store-options]");
     const generationStoreLabel = document.querySelector("[data-generation-store-label]");
     const generationBreadcrumbStore = document.querySelector("[data-generation-breadcrumb-store]");
     const generationButtons = document.querySelectorAll("[data-open-generation]");
@@ -1076,6 +1138,7 @@
       if (generationStoreLabel) generationStoreLabel.textContent = safeStore;
       if (generationWeekLabel) generationWeekLabel.textContent = safeWeek;
       if (generationBreadcrumbStore) generationBreadcrumbStore.textContent = `Turnos ${safeStore}`;
+      renderGenerationStoreOptions?.(generationStoreSearch?.value || "");
     };
 
     const closeDetailStoreDropdown = () => {
@@ -1087,6 +1150,7 @@
     const openDetailStoreDropdown = () => {
       closeAllPeriodPickers();
       dropdowns.forEach((dropdown) => closeDropdown(dropdown));
+      closeGenerationStoreDropdown();
       detailStoreDropdown?.classList.add("open");
       detailStoreTrigger?.setAttribute("aria-expanded", "true");
       if (detailStorePanel) detailStorePanel.hidden = false;
@@ -1426,6 +1490,53 @@
       syncDropdownLabel(dropdown);
     });
 
+    const closeGenerationStoreDropdown = () => {
+      generationStoreDropdown?.classList.remove("open");
+      generationStoreTrigger?.setAttribute("aria-expanded", "false");
+      if (generationStorePanel) generationStorePanel.hidden = true;
+    };
+
+    const openGenerationStoreDropdown = () => {
+      closeAllPeriodPickers();
+      dropdowns.forEach((dropdown) => closeDropdown(dropdown));
+      closeDetailStoreDropdown();
+      closeGenerationStoreDropdown();
+      generationStoreDropdown?.classList.add("open");
+      generationStoreTrigger?.setAttribute("aria-expanded", "true");
+      if (generationStorePanel) generationStorePanel.hidden = false;
+      if (generationStoreSearch) generationStoreSearch.value = "";
+      renderGenerationStoreOptions();
+      generationStoreSearch?.focus();
+    };
+
+    const renderGenerationStoreOptions = (filterTerm = "") => {
+      if (!generationStoreOptions) return;
+
+      const normalizedFilter = filterTerm.trim().toLowerCase();
+      const currentStore = generationStoreLabel?.textContent?.trim() || detailStoreName?.textContent?.trim() || "Arequipa";
+      const filteredStores = detailStoreList.filter((store) => store.toLowerCase().includes(normalizedFilter));
+
+      generationStoreOptions.innerHTML = filteredStores
+        .map((store) => `
+          <button
+            class="detail-store-option${store === currentStore ? " active" : ""}"
+            type="button"
+            role="option"
+            aria-selected="${store === currentStore}"
+            data-generation-store-option="${store}"
+          >
+            ${store}
+          </button>
+        `)
+        .join("");
+    };
+
+    const setGenerationStore = (storeName) => {
+      const safeStoreName = storeName?.trim() || "Arequipa";
+      if (generationStoreLabel) generationStoreLabel.textContent = safeStoreName;
+      if (generationBreadcrumbStore) generationBreadcrumbStore.textContent = `Turnos ${safeStoreName}`;
+      renderGenerationStoreOptions(generationStoreSearch?.value || "");
+    };
     renderDetailStoreOptions();
 
     detailStoreTrigger?.addEventListener("click", () => {
@@ -1436,8 +1547,20 @@
       }
     });
 
+    generationStoreTrigger?.addEventListener("click", () => {
+      if (generationStoreDropdown?.classList.contains("open")) {
+        closeGenerationStoreDropdown();
+      } else {
+        openGenerationStoreDropdown();
+      }
+    });
+
     detailStoreSearch?.addEventListener("input", () => {
       renderDetailStoreOptions(detailStoreSearch.value);
+    });
+
+    generationStoreSearch?.addEventListener("input", () => {
+      renderGenerationStoreOptions(generationStoreSearch.value);
     });
 
     detailStoreOptions?.addEventListener("click", (event) => {
@@ -1445,6 +1568,13 @@
       if (!option) return;
       setDetailStore(option.dataset.detailStoreOption);
       closeDetailStoreDropdown();
+    });
+
+    generationStoreOptions?.addEventListener("click", (event) => {
+      const option = event.target.closest("[data-generation-store-option]");
+      if (!option) return;
+      setGenerationStore(option.dataset.generationStoreOption);
+      closeGenerationStoreDropdown();
     });
 
     document.addEventListener("click", (event) => {
@@ -1460,6 +1590,10 @@
       if (detailStoreDropdown && !detailStoreDropdown.contains(event.target)) {
         closeDetailStoreDropdown();
       }
+
+      if (generationStoreDropdown && !generationStoreDropdown.contains(event.target)) {
+        closeGenerationStoreDropdown();
+      }
     });
 
     document.addEventListener("keydown", (event) => {
@@ -1467,10 +1601,13 @@
       closeAllPeriodPickers();
       dropdowns.forEach((dropdown) => closeDropdown(dropdown));
       closeDetailStoreDropdown();
+      closeGenerationStoreDropdown();
     });
   </script>
 </body>
 </html>
+
+
 
 
 

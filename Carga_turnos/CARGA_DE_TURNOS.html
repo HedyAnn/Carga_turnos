@@ -716,12 +716,23 @@
               </button>
             </div>
 
-            <div class="filter-block">
+            <div class="filter-block generation-store-block">
               <label for="generation-store">Tienda</label>
-              <button id="generation-store" class="dropdown-trigger detail-store-trigger generation-static-trigger" type="button">
-                <span data-generation-store-label>Arequipa</span>
-                <span class="material-symbols-outlined">expand_more</span>
-              </button>
+              <div class="custom-dropdown detail-store-dropdown generation-store-dropdown" data-generation-store-dropdown>
+                <button id="generation-store" class="dropdown-trigger detail-store-trigger generation-static-trigger" type="button" aria-label="Tienda generacion" aria-expanded="false">
+                  <span class="dropdown-trigger-text" data-generation-store-label>Arequipa</span>
+                  <span class="material-symbols-outlined">expand_more</span>
+                </button>
+
+                <div class="dropdown-panel detail-store-panel generation-store-panel" hidden>
+                  <div class="dropdown-search detail-store-search generation-store-search">
+                    <span class="material-symbols-outlined">search</span>
+                    <input type="text" placeholder="Buscar tienda" data-generation-store-search />
+                  </div>
+
+                  <div class="dropdown-options detail-store-options generation-store-options" role="listbox" aria-label="Opciones de tienda generacion" data-generation-store-options></div>
+                </div>
+              </div>
             </div>
 
             <div class="generation-header-actions">
@@ -844,6 +855,11 @@
     const detailStoreSearch = detailStoreDropdown?.querySelector("[data-detail-store-search]");
     const detailStoreOptions = detailStoreDropdown?.querySelector("[data-detail-store-options]");
     const generationWeekLabel = document.querySelector("[data-generation-week-label]");
+    const generationStoreDropdown = document.querySelector("[data-generation-store-dropdown]");
+    const generationStoreTrigger = generationStoreDropdown?.querySelector(".detail-store-trigger");
+    const generationStorePanel = generationStoreDropdown?.querySelector(".generation-store-panel");
+    const generationStoreSearch = generationStoreDropdown?.querySelector("[data-generation-store-search]");
+    const generationStoreOptions = generationStoreDropdown?.querySelector("[data-generation-store-options]");
     const generationStoreLabel = document.querySelector("[data-generation-store-label]");
     const generationBreadcrumbStore = document.querySelector("[data-generation-breadcrumb-store]");
     const generationButtons = document.querySelectorAll("[data-open-generation]");
@@ -1076,6 +1092,7 @@
       if (generationStoreLabel) generationStoreLabel.textContent = safeStore;
       if (generationWeekLabel) generationWeekLabel.textContent = safeWeek;
       if (generationBreadcrumbStore) generationBreadcrumbStore.textContent = `Turnos ${safeStore}`;
+      renderGenerationStoreOptions?.(generationStoreSearch?.value || "");
     };
 
     const closeDetailStoreDropdown = () => {
@@ -1087,6 +1104,7 @@
     const openDetailStoreDropdown = () => {
       closeAllPeriodPickers();
       dropdowns.forEach((dropdown) => closeDropdown(dropdown));
+      closeGenerationStoreDropdown();
       detailStoreDropdown?.classList.add("open");
       detailStoreTrigger?.setAttribute("aria-expanded", "true");
       if (detailStorePanel) detailStorePanel.hidden = false;
@@ -1426,6 +1444,53 @@
       syncDropdownLabel(dropdown);
     });
 
+    const closeGenerationStoreDropdown = () => {
+      generationStoreDropdown?.classList.remove("open");
+      generationStoreTrigger?.setAttribute("aria-expanded", "false");
+      if (generationStorePanel) generationStorePanel.hidden = true;
+    };
+
+    const openGenerationStoreDropdown = () => {
+      closeAllPeriodPickers();
+      dropdowns.forEach((dropdown) => closeDropdown(dropdown));
+      closeDetailStoreDropdown();
+      closeGenerationStoreDropdown();
+      generationStoreDropdown?.classList.add("open");
+      generationStoreTrigger?.setAttribute("aria-expanded", "true");
+      if (generationStorePanel) generationStorePanel.hidden = false;
+      if (generationStoreSearch) generationStoreSearch.value = "";
+      renderGenerationStoreOptions();
+      generationStoreSearch?.focus();
+    };
+
+    const renderGenerationStoreOptions = (filterTerm = "") => {
+      if (!generationStoreOptions) return;
+
+      const normalizedFilter = filterTerm.trim().toLowerCase();
+      const currentStore = generationStoreLabel?.textContent?.trim() || detailStoreName?.textContent?.trim() || "Arequipa";
+      const filteredStores = detailStoreList.filter((store) => store.toLowerCase().includes(normalizedFilter));
+
+      generationStoreOptions.innerHTML = filteredStores
+        .map((store) => `
+          <button
+            class="detail-store-option${store === currentStore ? " active" : ""}"
+            type="button"
+            role="option"
+            aria-selected="${store === currentStore}"
+            data-generation-store-option="${store}"
+          >
+            ${store}
+          </button>
+        `)
+        .join("");
+    };
+
+    const setGenerationStore = (storeName) => {
+      const safeStoreName = storeName?.trim() || "Arequipa";
+      if (generationStoreLabel) generationStoreLabel.textContent = safeStoreName;
+      if (generationBreadcrumbStore) generationBreadcrumbStore.textContent = `Turnos ${safeStoreName}`;
+      renderGenerationStoreOptions(generationStoreSearch?.value || "");
+    };
     renderDetailStoreOptions();
 
     detailStoreTrigger?.addEventListener("click", () => {
@@ -1436,8 +1501,20 @@
       }
     });
 
+    generationStoreTrigger?.addEventListener("click", () => {
+      if (generationStoreDropdown?.classList.contains("open")) {
+        closeGenerationStoreDropdown();
+      } else {
+        openGenerationStoreDropdown();
+      }
+    });
+
     detailStoreSearch?.addEventListener("input", () => {
       renderDetailStoreOptions(detailStoreSearch.value);
+    });
+
+    generationStoreSearch?.addEventListener("input", () => {
+      renderGenerationStoreOptions(generationStoreSearch.value);
     });
 
     detailStoreOptions?.addEventListener("click", (event) => {
@@ -1445,6 +1522,13 @@
       if (!option) return;
       setDetailStore(option.dataset.detailStoreOption);
       closeDetailStoreDropdown();
+    });
+
+    generationStoreOptions?.addEventListener("click", (event) => {
+      const option = event.target.closest("[data-generation-store-option]");
+      if (!option) return;
+      setGenerationStore(option.dataset.generationStoreOption);
+      closeGenerationStoreDropdown();
     });
 
     document.addEventListener("click", (event) => {
@@ -1460,6 +1544,10 @@
       if (detailStoreDropdown && !detailStoreDropdown.contains(event.target)) {
         closeDetailStoreDropdown();
       }
+
+      if (generationStoreDropdown && !generationStoreDropdown.contains(event.target)) {
+        closeGenerationStoreDropdown();
+      }
     });
 
     document.addEventListener("keydown", (event) => {
@@ -1467,10 +1555,13 @@
       closeAllPeriodPickers();
       dropdowns.forEach((dropdown) => closeDropdown(dropdown));
       closeDetailStoreDropdown();
+      closeGenerationStoreDropdown();
     });
   </script>
 </body>
 </html>
+
+
 
 
 
