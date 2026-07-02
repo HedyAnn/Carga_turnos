@@ -346,11 +346,11 @@
               <span class="material-symbols-outlined arrow">chevron_right</span>
               <button class="breadcrumb-button" type="button" data-back-overview>Carga de Turnos</button>
               <span class="material-symbols-outlined arrow">chevron_right</span>
-              <strong>Turnos Arequipa</strong>
+              <strong data-detail-breadcrumb-title>Turnos Arequipa</strong>
             </div>
 
             <div class="detail-header-row">
-              <h1>Turnos Arequipa</h1>
+              <h1 data-detail-page-title>Turnos Arequipa</h1>
             </div>
           </header>
 
@@ -405,7 +405,7 @@
             <div class="filter-block detail-store-block">
               <label>Tienda</label>
               <button class="dropdown-trigger detail-store-trigger" type="button" aria-label="Tienda detalle">
-                <span class="dropdown-trigger-text">Arequipa</span>
+                <span class="dropdown-trigger-text" data-detail-store-name>Arequipa</span>
                 <span class="material-symbols-outlined">expand_more</span>
               </button>
             </div>
@@ -485,11 +485,11 @@
             </article>
           </section>
 
-          <section class="table-card detail-table-card" aria-label="Turnos de Arequipa">
+          <section class="table-card detail-table-card" aria-label="Turnos de Arequipa" data-detail-table-card>
             <div class="detail-table-header">
               <h2>
                 <span class="material-symbols-outlined">calendar_month</span>
-                Turnos de Arequipa
+                <span data-detail-table-title>Turnos de Arequipa</span>
               </h2>
               <div class="detail-table-status">
                 <span>Estado de cobertura:</span>
@@ -634,6 +634,11 @@
     const tabButtons = document.querySelectorAll(".tab-button");
     const overviewScreen = document.querySelector('[data-view-screen="overview"]');
     const detailScreen = document.querySelector('[data-view-screen="detail"]');
+    const detailBreadcrumbTitle = document.querySelector("[data-detail-breadcrumb-title]");
+    const detailPageTitle = document.querySelector("[data-detail-page-title]");
+    const detailStoreName = document.querySelector("[data-detail-store-name]");
+    const detailTableTitle = document.querySelector("[data-detail-table-title]");
+    const detailTableCard = document.querySelector("[data-detail-table-card]");
 
     const coverageViews = {
       all: {
@@ -829,11 +834,10 @@
           const weekCells = row.weeks
             .map((cell, index) => `<td data-label="${weekColumns[index]}">${renderCoveragePill(cell)}</td>`)
             .join("");
-          const isDetailTarget = row.store === "Arequipa";
 
           return `
             <tr>
-              <td data-label="Tienda"><a href="#"${isDetailTarget ? ' data-store-detail="arequipa"' : ""}>${row.store}</a></td>
+              <td data-label="Tienda"><a href="#" data-store-detail="${row.store}">${row.store}</a></td>
               ${weekCells}
               <td data-label="Estado Cobertura">${renderCoveragePill(row.status, true)}</td>
             </tr>
@@ -846,6 +850,18 @@
       const showDetail = screen === "detail";
       overviewScreen.hidden = showDetail;
       detailScreen.hidden = !showDetail;
+    };
+
+    const setDetailStore = (storeName) => {
+      const safeStoreName = storeName?.trim() || "Arequipa";
+      const pageTitle = `Turnos ${safeStoreName}`;
+      const tableTitle = `Turnos de ${safeStoreName}`;
+
+      if (detailBreadcrumbTitle) detailBreadcrumbTitle.textContent = pageTitle;
+      if (detailPageTitle) detailPageTitle.textContent = pageTitle;
+      if (detailStoreName) detailStoreName.textContent = safeStoreName;
+      if (detailTableTitle) detailTableTitle.textContent = tableTitle;
+      if (detailTableCard) detailTableCard.setAttribute("aria-label", tableTitle);
     };
 
     tabButtons.forEach((button) => {
@@ -862,12 +878,14 @@
     });
 
     renderCoverageTable("all");
+    setDetailStore("Arequipa");
     setActiveScreen("overview");
 
     coverageTableBody?.addEventListener("click", (event) => {
-      const link = event.target.closest('[data-store-detail="arequipa"]');
+      const link = event.target.closest("[data-store-detail]");
       if (!link) return;
       event.preventDefault();
+      setDetailStore(link.dataset.storeDetail);
       setActiveScreen("detail");
     });
 
