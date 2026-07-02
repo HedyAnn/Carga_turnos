@@ -1246,6 +1246,61 @@ a {
   justify-content: space-between;
 }
 
+.detail-store-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.detail-store-dropdown.open .detail-store-trigger {
+  border-color: #b9c5d5;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
+}
+
+.detail-store-dropdown.open .detail-store-trigger .material-symbols-outlined {
+  transform: rotate(180deg);
+}
+
+.detail-store-panel {
+  padding: 18px 10px 14px 16px;
+  border-radius: 10px;
+}
+
+.detail-store-search {
+  margin: 0 8px 14px 10px;
+}
+
+.detail-store-search input {
+  height: 52px;
+  font-size: 18px;
+}
+
+.detail-store-options {
+  max-height: 288px;
+}
+
+.detail-store-option {
+  width: calc(100% - 10px);
+  min-height: 54px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  padding: 0 2px;
+  font-size: 22px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.detail-store-option:hover {
+  background: #edf6fd;
+}
+
+.detail-store-option.active {
+  background: #e2f0fb;
+}
+
 .detail-summary-grid {
   display: grid;
   grid-template-columns: 1.05fr .9fr .9fr .9fr;
@@ -1258,9 +1313,25 @@ a {
   min-height: 97px;
 }
 
+.detail-summary-card {
+  padding: 18px 18px 16px;
+}
+
 .detail-summary-card .card-head,
 .detail-download-card .card-head {
   margin-bottom: 12px;
+}
+
+.detail-summary-copy {
+  display: grid;
+  align-content: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.detail-summary-card .card-head {
+  align-items: center;
+  margin-bottom: 8px;
 }
 
 .detail-summary-card .card-head h2,
@@ -1268,35 +1339,88 @@ a {
   font-size: 15px;
 }
 
+.detail-summary-card .card-head h2 {
+  color: #334155;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.detail-summary-card .icon-button {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+}
+
+.coverage-card .icon-button,
+.detail-summary-card .icon-button {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.coverage-card .icon-button:hover,
+.detail-summary-card .icon-button:hover {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.detail-summary-card .icon-button .material-symbols-outlined {
+  font-size: 20px;
+}
+
 .detail-coverage-content {
-  grid-template-columns: 92px minmax(0, 1fr);
-  gap: 18px;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 28px;
+  align-items: center;
 }
 
 .detail-donut {
-  width: 84px;
-  height: 84px;
+  width: 112px;
+  height: 112px;
 }
 
 .detail-donut-center {
-  width: 62px;
-  height: 62px;
+  width: 80px;
+  height: 80px;
 }
 
 .detail-donut-center strong {
-  font-size: 14px;
+  font-size: 22px;
 }
 
 .detail-donut-center span {
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .detail-store-legend {
-  gap: 10px;
+  gap: 14px;
+}
+
+.detail-store-legend .legend-row {
+  gap: 16px;
+  font-size: 14px;
+}
+
+.detail-store-legend .legend-label {
+  gap: 14px;
+}
+
+.detail-store-legend .legend-label,
+.detail-summary-card .card-head h2 {
+  min-width: 0;
+}
+
+.detail-store-legend .dot {
+  width: 18px;
+  height: 18px;
 }
 
 .detail-store-legend .legend-row strong {
-  min-width: 10px;
+  min-width: 18px;
+  color: #334155;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .detail-inline-action {

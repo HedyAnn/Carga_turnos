@@ -404,22 +404,26 @@
 
             <div class="filter-block detail-store-block">
               <label>Tienda</label>
-              <button class="dropdown-trigger detail-store-trigger" type="button" aria-label="Tienda detalle">
-                <span class="dropdown-trigger-text" data-detail-store-name>Arequipa</span>
-                <span class="material-symbols-outlined">expand_more</span>
-              </button>
+              <div class="custom-dropdown detail-store-dropdown" data-detail-store-dropdown>
+                <button class="dropdown-trigger detail-store-trigger" type="button" aria-label="Tienda detalle" aria-expanded="false">
+                  <span class="dropdown-trigger-text" data-detail-store-name>Arequipa</span>
+                  <span class="material-symbols-outlined">expand_more</span>
+                </button>
+
+                <div class="dropdown-panel detail-store-panel" hidden>
+                  <div class="dropdown-search detail-store-search">
+                    <span class="material-symbols-outlined">search</span>
+                    <input type="text" placeholder="Buscar tienda" data-detail-store-search />
+                  </div>
+
+                  <div class="dropdown-options detail-store-options" role="listbox" aria-label="Opciones de tienda detalle" data-detail-store-options></div>
+                </div>
+              </div>
             </div>
           </section>
 
           <section class="detail-summary-grid" aria-label="Resumen de tienda">
             <article class="card detail-summary-card">
-              <div class="card-head">
-                <h2>Resumen de Tienda</h2>
-                <button class="icon-button" type="button" aria-label="Informacion de tienda">
-                  <span class="material-symbols-outlined">info</span>
-                </button>
-              </div>
-
               <div class="coverage-content detail-coverage-content">
                 <div class="donut-chart detail-donut" aria-label="Resumen de semanas">
                   <div class="donut-center detail-donut-center">
@@ -428,18 +432,32 @@
                   </div>
                 </div>
 
-                <div class="legend detail-store-legend">
-                  <div class="legend-row">
-                    <span class="legend-label"><span class="dot complete"></span>Completa</span>
-                    <strong>3</strong>
+                <div class="detail-summary-copy">
+                  <div class="card-head">
+                    <h2>Resumen de Tienda</h2>
+                    <div class="summary-info-tooltip">
+                      <button class="icon-button" type="button" aria-label="Informacion de tienda">
+                        <span class="material-symbols-outlined">info</span>
+                      </button>
+                      <div class="summary-info-panel" role="tooltip">
+                        La cobertura representa el porcentaje del horario de operacion en que una tienda cuenta con vendedores con turnos asignados.
+                      </div>
+                    </div>
                   </div>
-                  <div class="legend-row">
-                    <span class="legend-label"><span class="dot partial"></span>Parcial</span>
-                    <strong>1</strong>
-                  </div>
-                  <div class="legend-row">
-                    <span class="legend-label"><span class="dot critical"></span>Critico</span>
-                    <strong>1</strong>
+
+                  <div class="legend detail-store-legend">
+                    <div class="legend-row">
+                      <span class="legend-label"><span class="dot complete"></span>Completa</span>
+                      <strong>3</strong>
+                    </div>
+                    <div class="legend-row">
+                      <span class="legend-label"><span class="dot partial"></span>Parcial</span>
+                      <strong>1</strong>
+                    </div>
+                    <div class="legend-row">
+                      <span class="legend-label"><span class="dot critical"></span>Critico</span>
+                      <strong>1</strong>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -639,6 +657,11 @@
     const detailStoreName = document.querySelector("[data-detail-store-name]");
     const detailTableTitle = document.querySelector("[data-detail-table-title]");
     const detailTableCard = document.querySelector("[data-detail-table-card]");
+    const detailStoreDropdown = document.querySelector("[data-detail-store-dropdown]");
+    const detailStoreTrigger = detailStoreDropdown?.querySelector(".detail-store-trigger");
+    const detailStorePanel = detailStoreDropdown?.querySelector(".detail-store-panel");
+    const detailStoreSearch = detailStoreDropdown?.querySelector("[data-detail-store-search]");
+    const detailStoreOptions = detailStoreDropdown?.querySelector("[data-detail-store-options]");
 
     const coverageViews = {
       all: {
@@ -807,6 +830,15 @@
       critical: "cancel"
     };
 
+    const detailStoreList = [
+      "Arequipa",
+      "Baby Plane Las Condes",
+      "Colloky Alto Las Condes",
+      "Colloky Antofagasta",
+      "Colloky Santiago",
+      ...new Set(Object.values(coverageViews).flatMap((view) => view.rows.map((row) => row.store)))
+    ].filter((store, index, stores) => stores.indexOf(store) === index);
+
     const renderCoveragePill = (cell, summary = false) => `
       <span class="status-pill ${cell.tone}${summary ? " summary" : ""}">
         <span class="material-symbols-outlined">${toneToIcon[cell.tone]}</span>${cell.text}
@@ -852,6 +884,45 @@
       detailScreen.hidden = !showDetail;
     };
 
+    const closeDetailStoreDropdown = () => {
+      detailStoreDropdown?.classList.remove("open");
+      detailStoreTrigger?.setAttribute("aria-expanded", "false");
+      if (detailStorePanel) detailStorePanel.hidden = true;
+    };
+
+    const openDetailStoreDropdown = () => {
+      closeAllPeriodPickers();
+      dropdowns.forEach((dropdown) => closeDropdown(dropdown));
+      detailStoreDropdown?.classList.add("open");
+      detailStoreTrigger?.setAttribute("aria-expanded", "true");
+      if (detailStorePanel) detailStorePanel.hidden = false;
+      if (detailStoreSearch) detailStoreSearch.value = "";
+      renderDetailStoreOptions();
+      detailStoreSearch?.focus();
+    };
+
+    const renderDetailStoreOptions = (filterTerm = "") => {
+      if (!detailStoreOptions) return;
+
+      const normalizedFilter = filterTerm.trim().toLowerCase();
+      const currentStore = detailStoreName?.textContent?.trim() || "Arequipa";
+      const filteredStores = detailStoreList.filter((store) => store.toLowerCase().includes(normalizedFilter));
+
+      detailStoreOptions.innerHTML = filteredStores
+        .map((store) => `
+          <button
+            class="detail-store-option${store === currentStore ? " active" : ""}"
+            type="button"
+            role="option"
+            aria-selected="${store === currentStore}"
+            data-detail-store-option="${store}"
+          >
+            ${store}
+          </button>
+        `)
+        .join("");
+    };
+
     const setDetailStore = (storeName) => {
       const safeStoreName = storeName?.trim() || "Arequipa";
       const pageTitle = `Turnos ${safeStoreName}`;
@@ -862,6 +933,7 @@
       if (detailStoreName) detailStoreName.textContent = safeStoreName;
       if (detailTableTitle) detailTableTitle.textContent = tableTitle;
       if (detailTableCard) detailTableCard.setAttribute("aria-label", tableTitle);
+      renderDetailStoreOptions(detailStoreSearch?.value || "");
     };
 
     tabButtons.forEach((button) => {
@@ -1145,6 +1217,27 @@
       syncDropdownLabel(dropdown);
     });
 
+    renderDetailStoreOptions();
+
+    detailStoreTrigger?.addEventListener("click", () => {
+      if (detailStoreDropdown?.classList.contains("open")) {
+        closeDetailStoreDropdown();
+      } else {
+        openDetailStoreDropdown();
+      }
+    });
+
+    detailStoreSearch?.addEventListener("input", () => {
+      renderDetailStoreOptions(detailStoreSearch.value);
+    });
+
+    detailStoreOptions?.addEventListener("click", (event) => {
+      const option = event.target.closest("[data-detail-store-option]");
+      if (!option) return;
+      setDetailStore(option.dataset.detailStoreOption);
+      closeDetailStoreDropdown();
+    });
+
     document.addEventListener("click", (event) => {
       if (!periodPickers.some((picker) => picker.contains(event.target))) {
         closeAllPeriodPickers();
@@ -1154,12 +1247,17 @@
         if (dropdown.contains(event.target)) return;
         closeDropdown(dropdown);
       });
+
+      if (detailStoreDropdown && !detailStoreDropdown.contains(event.target)) {
+        closeDetailStoreDropdown();
+      }
     });
 
     document.addEventListener("keydown", (event) => {
       if (event.key !== "Escape") return;
       closeAllPeriodPickers();
       dropdowns.forEach((dropdown) => closeDropdown(dropdown));
+      closeDetailStoreDropdown();
     });
   </script>
 </body>
