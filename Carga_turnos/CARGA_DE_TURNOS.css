@@ -3878,3 +3878,138 @@ button#generation-store.detail-store-trigger.generation-static-trigger {
 .generation-empty-state {
   min-height: 360px !important;
 }
+
+.detail-download-card .download-icon.export,
+.detail-download-card .download-icon.upload,
+.detail-download-card .download-icon.detail-purple {
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+
+
+
+
+
+@media (max-width: 1280px) {
+  .generation-workspace {
+    grid-template-columns: 1fr !important;
+  }
+
+  .generation-main-stack {
+    min-width: 0;
+  }
+
+  .generation-vendors-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 16px;
+  }
+
+  .generation-board-card {
+    min-width: 0;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+  }
+
+  .generation-calendar-head,
+  .generation-board-body,
+  .generation-empty-state {
+    min-width: 860px;
+  }
+
+  .generation-shift-layout {
+    grid-template-columns: 1fr !important;
+    align-items: start !important;
+    gap: 20px;
+  }
+
+  .generation-shift-main,
+  .generation-shift-left,
+  .generation-shift-pills,
+  .generation-copy-block {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .generation-shift-left {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+  }
+
+  .generation-copy-block {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+    justify-self: start !important;
+  }
+
+  .generation-copy-block::before {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .generation-vendors-list {
+    grid-template-columns: 1fr;
+  }
+
+  .generation-calendar-head,
+  .generation-board-body,
+  .generation-empty-state {
+    min-width: 760px;
+  }
+
+  .generation-shift-left {
+    grid-template-columns: 1fr;
+  }
+
+  .generation-shift-pills {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(112px, 1fr));
+    width: 100% !important;
+  }
+
+  .generation-shift-pill {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .generation-shift-pills {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Codex override: main dashboard table row height and coverage metric size */
+.state-card .state-metric strong {
+  font-size: 38px;
+}
+
+.coverage-table tbody tr {
+  height: 67px;
+}
+
+.coverage-table tbody td {
+  height: 67px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Codex override: dashboard heading, tabs and coverage header sizing */
+.summary-grid .card-head h2 {
+  font-size: 18px;
+}
+
+.tabs-shell .tab-button {
+  font-size: 16px;
+}
+
+.coverage-table thead th {
+  height: 67px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Codex override: detail turnos table header font size */
+.detail-turnos-table thead th {
+  font-size: 14px;
+}
