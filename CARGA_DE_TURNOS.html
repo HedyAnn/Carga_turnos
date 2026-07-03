@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+Ôªø<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -143,21 +143,21 @@
                     <input type="checkbox" data-select-all />
                     <span>Seleccionar todo</span>
                   </label>
-                  <label class="dropdown-option" data-option-text="Zona norte Bogot·">
-                    <input type="checkbox" value="Zona norte Bogot·" />
-                    <span>Zona norte Bogot·</span>
+                  <label class="dropdown-option" data-option-text="Zona norte Bogot√°">
+                    <input type="checkbox" value="Zona norte Bogot√°" />
+                    <span>Zona norte Bogot√°</span>
                   </label>
-                  <label class="dropdown-option" data-option-text="Zona centro Bogot·">
-                    <input type="checkbox" value="Zona centro Bogot·" />
-                    <span>Zona centro Bogot·</span>
+                  <label class="dropdown-option" data-option-text="Zona centro Bogot√°">
+                    <input type="checkbox" value="Zona centro Bogot√°" />
+                    <span>Zona centro Bogot√°</span>
                   </label>
                   <label class="dropdown-option" data-option-text="Tiendas Colombia">
                     <input type="checkbox" value="Tiendas Colombia" />
                     <span>Tiendas Colombia</span>
                   </label>
-                  <label class="dropdown-option" data-option-text="Tiendas Bogot·">
-                    <input type="checkbox" value="Tiendas Bogot·" />
-                    <span>Tiendas Bogot·</span>
+                  <label class="dropdown-option" data-option-text="Tiendas Bogot√°">
+                    <input type="checkbox" value="Tiendas Bogot√°" />
+                    <span>Tiendas Bogot√°</span>
                   </label>
                 </div>
               </div>
@@ -767,12 +767,12 @@
 
             <div class="generation-main-stack">
               <section class="card generation-board-card">
-                <div class="generation-mode-switch" role="tablist" aria-label="Modo de turnos">
-                  <button class="generation-mode-pill active" type="button" aria-pressed="true">
+                <div class="generation-mode-switch" role="tablist" aria-label="Modo de turnos" data-generation-mode-switch>
+                  <button class="generation-mode-pill active" type="button" aria-pressed="true" data-generation-mode="meta-justa">
                     <span class="material-symbols-outlined">calendar_month</span>
                     Turnos Meta Justa
                   </button>
-                  <button class="generation-mode-pill" type="button" aria-pressed="false">
+                  <button class="generation-mode-pill" type="button" aria-pressed="false" data-generation-mode="asistencia">
                     <span class="material-symbols-outlined">calendar_month</span>
                     Turnos Asistencia
                   </button>
@@ -876,6 +876,8 @@
     const generationVendorCheckboxes = generationVendorsList ? [...generationVendorsList.querySelectorAll("[data-generation-vendor]")] : [];
     const generationBoardBody = document.querySelector("[data-generation-board-body]");
     const generationEmptyState = document.querySelector("[data-generation-empty-state]");
+    const generationModeSwitch = document.querySelector("[data-generation-mode-switch]");
+    const generationModePills = generationModeSwitch ? [...generationModeSwitch.querySelectorAll("[data-generation-mode]")] : [];
     const generationBreadcrumbStore = document.querySelector("[data-generation-breadcrumb-store]");
     const generationButtons = document.querySelectorAll("[data-open-generation]");
 
@@ -1541,6 +1543,16 @@
       .map((checkbox) => checkbox.closest(".generation-vendor-row")?.querySelector("span")?.textContent?.trim())
       .filter(Boolean);
 
+    const setGenerationMode = (mode) => {
+      if (!generationModePills.length) return;
+
+      generationModePills.forEach((button) => {
+        const isActive = button.dataset.generationMode === mode;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-pressed", String(isActive));
+      });
+    };
+
     const renderGenerationBoard = () => {
       if (!generationBoardBody || !generationEmptyState) return;
 
@@ -1641,6 +1653,14 @@
       });
     });
 
+    generationModeSwitch?.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-generation-mode]");
+      if (!button) return;
+      setGenerationMode(button.dataset.generationMode);
+    });
+
+    setGenerationMode("meta-justa");
+
     renderGenerationBoard();
 
 
@@ -1673,6 +1693,7 @@
   </script>
 </body>
 </html>
+
 
 
 

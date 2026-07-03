@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --bg: #F3F4F6;
   --surface: #ffffff;
   --border: #D1D5DB;
@@ -2707,12 +2707,18 @@ a {
   gap: 8px;
   font-size: 14px;
   font-weight: 700;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
 .generation-mode-pill.active {
   background: #ffffff;
   color: var(--blue-dark);
   box-shadow: var(--shadow);
+}
+
+.generation-mode-pill:active {
+  transform: translateY(1px);
 }
 
 .generation-calendar-head {
@@ -4377,3 +4383,4 @@ button#generation-store.detail-store-trigger.generation-static-trigger {
     max-width: none !important;
   }
 }
+
