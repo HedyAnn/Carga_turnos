@@ -878,6 +878,13 @@
     const generationEmptyState = document.querySelector("[data-generation-empty-state]");
     const generationModeSwitch = document.querySelector("[data-generation-mode-switch]");
     const generationModePills = generationModeSwitch ? [...generationModeSwitch.querySelectorAll("[data-generation-mode]")] : [];
+    const generationShiftOptions = [
+      { id: "morning", title: "Ma?ana", schedule: "08:00 - 14:00", tone: "morning" },
+      { id: "afternoon", title: "Tarde", schedule: "14:00 - 20:00", tone: "afternoon" },
+      { id: "fullday", title: "Full day", schedule: "08:00 - 20:00", tone: "fullday" },
+      { id: "off", title: "Libre", schedule: "Sin turno", tone: "off" }
+    ];
+    let activeGenerationBoardCell = null;
     const generationBreadcrumbStore = document.querySelector("[data-generation-breadcrumb-store]");
     const generationButtons = document.querySelectorAll("[data-open-generation]");
 
@@ -1572,16 +1579,92 @@
       generationBoardBody.innerHTML = selectedVendors.map((vendorName) => `
         <div class="generation-board-row">
           <div class="generation-board-vendor">${vendorName}</div>
-          <button class="generation-board-cell" type="button">Asignar Turno</button>
-          <button class="generation-board-cell" type="button">Asignar Turno</button>
-          <button class="generation-board-cell" type="button">Asignar Turno</button>
-          <button class="generation-board-cell" type="button">Asignar Turno</button>
-          <button class="generation-board-cell" type="button">Asignar Turno</button>
-          <button class="generation-board-cell" type="button">Asignar Turno</button>
-          <button class="generation-board-cell" type="button">Asignar Turno</button>
+          ${Array.from({ length: 7 }, (_, dayIndex) => `<button class="generation-board-cell" type="button" data-generation-assign-trigger data-day-index="${dayIndex}">Asignar Turno</button>`).join("")}
         </div>
       `).join("");
     };
+
+    const generationAssignMenu = document.createElement("div");
+    generationAssignMenu.className = "generation-assign-menu";
+    generationAssignMenu.hidden = true;
+    generationAssignMenu.innerHTML = `
+      <button class="generation-assign-customize" type="button" data-generation-assign-customize>
+        <span class="material-symbols-outlined">edit_square</span>
+        Personalizar
+      </button>
+      <div class="generation-assign-options" data-generation-assign-options></div>
+    `;
+    document.body.appendChild(generationAssignMenu);
+
+    const generationAssignOptionsContainer = generationAssignMenu.querySelector("[data-generation-assign-options]");
+
+    const renderGenerationAssignMenu = () => {
+      if (!generationAssignOptionsContainer) return;
+      generationAssignOptionsContainer.innerHTML = generationShiftOptions.map((option) => `
+        <button class="generation-assign-option ${option.tone}" type="button" data-generation-assign-option="${option.id}">
+          <strong>${option.title}</strong>
+          <small>${option.schedule}</small>
+        </button>
+      `).join("");
+    };
+
+    const closeGenerationAssignMenu = () => {
+      generationAssignMenu.hidden = true;
+      generationAssignMenu.classList.remove("open");
+      generationAssignMenu.style.left = "";
+      generationAssignMenu.style.top = "";
+      generationAssignMenu.style.visibility = "";
+      activeGenerationBoardCell = null;
+    };
+
+    const applyGenerationShiftToCell = (cell, shiftId) => {
+      if (!cell) return;
+
+      if (shiftId === "custom") {
+        cell.className = "generation-board-cell assigned custom";
+        cell.innerHTML = `<strong>Personalizado</strong><small>Configurar turno</small>`;
+        return;
+      }
+
+      const selectedShift = generationShiftOptions.find((option) => option.id === shiftId);
+      if (!selectedShift) return;
+
+      cell.className = `generation-board-cell assigned ${selectedShift.tone}`;
+      cell.innerHTML = `<strong>${selectedShift.title}</strong><small>${selectedShift.schedule}</small>`;
+    };
+
+    const openGenerationAssignMenu = (button) => {
+      if (!button) return;
+      if (activeGenerationBoardCell === button && !generationAssignMenu.hidden) {
+        closeGenerationAssignMenu();
+        return;
+      }
+
+      activeGenerationBoardCell = button;
+      renderGenerationAssignMenu();
+      generationAssignMenu.hidden = false;
+      generationAssignMenu.classList.add("open");
+      generationAssignMenu.style.visibility = "hidden";
+      generationAssignMenu.style.left = "16px";
+      generationAssignMenu.style.top = "16px";
+
+      requestAnimationFrame(() => {
+        const rect = button.getBoundingClientRect();
+        const menuRect = generationAssignMenu.getBoundingClientRect();
+        const margin = 16;
+        const left = Math.min(Math.max(rect.left, margin), window.innerWidth - menuRect.width - margin);
+        let top = rect.bottom + 12;
+
+        if (top + menuRect.height > window.innerHeight - margin) {
+          top = Math.max(margin, rect.top - menuRect.height - 12);
+        }
+
+        generationAssignMenu.style.left = `${left}px`;
+        generationAssignMenu.style.top = `${top}px`;
+        generationAssignMenu.style.visibility = "visible";
+      });
+    };
+
     renderDetailStoreOptions();
     renderGenerationWeekOptions();
 
@@ -1653,6 +1736,30 @@
       });
     });
 
+    generationBoardBody?.addEventListener("click", (event) => {
+      const trigger = event.target.closest("[data-generation-assign-trigger]");
+      if (!trigger) return;
+      openGenerationAssignMenu(trigger);
+    });
+
+    generationAssignMenu.addEventListener("click", (event) => {
+      const customizeButton = event.target.closest("[data-generation-assign-customize]");
+      if (customizeButton) {
+        applyGenerationShiftToCell(activeGenerationBoardCell, "custom");
+        closeGenerationAssignMenu();
+        return;
+      }
+
+      const optionButton = event.target.closest("[data-generation-assign-option]");
+      if (!optionButton) return;
+      applyGenerationShiftToCell(activeGenerationBoardCell, optionButton.dataset.generationAssignOption);
+      closeGenerationAssignMenu();
+    });
+
+    generationBoardBody?.addEventListener("scroll", () => {
+      if (!generationAssignMenu.hidden) closeGenerationAssignMenu();
+    });
+
     generationModeSwitch?.addEventListener("click", (event) => {
       const button = event.target.closest("[data-generation-mode]");
       if (!button) return;
@@ -1665,6 +1772,12 @@
 
 
     document.addEventListener("click", (event) => {
+      if (!generationAssignMenu.hidden) {
+        const clickedAssignTrigger = event.target.closest("[data-generation-assign-trigger]");
+        if (!generationAssignMenu.contains(event.target) && !clickedAssignTrigger) {
+          closeGenerationAssignMenu();
+        }
+      }
       if (!periodPickers.some((picker) => picker.contains(event.target))) {
         closeAllPeriodPickers();
       }

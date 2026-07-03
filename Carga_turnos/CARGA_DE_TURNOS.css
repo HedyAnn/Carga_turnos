@@ -3793,6 +3793,7 @@ button#generation-store.detail-store-trigger.generation-static-trigger {
 
 .generation-board-cell {
   min-height: 56px;
+  padding: 8px 10px;
   border: 1px dashed #d6dde8;
   border-radius: 12px;
   background: #ffffff;
@@ -3800,6 +3801,156 @@ button#generation-store.detail-store-trigger.generation-static-trigger {
   font-size: 14px;
   font-weight: 500;
   text-align: center;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.generation-board-cell:hover {
+  border-color: #b7c3d4;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.generation-board-cell.assigned {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+  text-align: left;
+  border-style: solid;
+}
+
+.generation-board-cell.assigned strong {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.generation-board-cell.assigned small {
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+.generation-board-cell.assigned.morning {
+  border-color: #b8f1d1;
+  color: #0f9f78;
+  background: #ffffff;
+}
+
+.generation-board-cell.assigned.afternoon {
+  border-color: #cfe0ff;
+  color: #3f67ea;
+  background: #ffffff;
+}
+
+.generation-board-cell.assigned.fullday {
+  border-color: #e5cfff;
+  color: #8a40ff;
+  background: #ffffff;
+}
+
+.generation-board-cell.assigned.off {
+  border-color: #ffd9b8;
+  color: #f97316;
+  background: #ffffff;
+}
+
+.generation-board-cell.assigned.custom {
+  border-color: #0b6a8f;
+  color: #0b6a8f;
+  background: #ffffff;
+}
+
+.generation-assign-menu {
+  position: fixed;
+  width: min(420px, calc(100vw - 32px));
+  max-height: min(560px, calc(100vh - 32px));
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.18);
+  z-index: 80;
+}
+
+.generation-assign-options {
+  display: grid;
+  gap: 12px;
+  max-height: min(420px, calc(100vh - 180px));
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.generation-assign-customize,
+.generation-assign-option {
+  width: 100%;
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.generation-assign-customize {
+  height: 60px;
+  margin-bottom: 18px;
+  border: 3px solid #0b6a8f;
+  color: #0b6a8f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.generation-assign-customize .material-symbols-outlined {
+  font-size: 34px;
+}
+
+.generation-assign-option {
+  min-height: 90px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 6px;
+  text-align: left;
+  border: 2px solid transparent;
+}
+
+.generation-assign-option strong {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.generation-assign-option small {
+  font-size: 18px;
+  line-height: 1.1;
+}
+
+.generation-assign-option.morning {
+  border-color: #b8f1d1;
+  color: #0f9f78;
+}
+
+.generation-assign-option.afternoon {
+  border-color: #cfe0ff;
+  color: #3f67ea;
+}
+
+.generation-assign-option.fullday {
+  border-color: #e5cfff;
+  color: #8a40ff;
+}
+
+.generation-assign-option.off {
+  border-color: #ffd9b8;
+  color: #f97316;
+}
+
+.generation-assign-customize:hover,
+.generation-assign-option:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.1);
 }
 
 @media (max-width: 760px) {
