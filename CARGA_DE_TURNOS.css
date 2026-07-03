@@ -3817,15 +3817,26 @@ button#generation-store.detail-store-trigger.generation-static-trigger {
   gap: 4px;
   text-align: left;
   border-style: solid;
+  overflow: hidden;
 }
 
 .generation-board-cell.assigned strong {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 14px;
   font-weight: 700;
   line-height: 1.1;
 }
 
 .generation-board-cell.assigned small {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 12px;
   line-height: 1.1;
 }

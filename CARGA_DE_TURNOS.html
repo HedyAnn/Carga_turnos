@@ -885,6 +885,7 @@
       { id: "off", title: "Libre", schedule: "Sin turno", tone: "off" }
     ];
     let activeGenerationBoardCell = null;
+    const generationAssignments = {};
     const generationBreadcrumbStore = document.querySelector("[data-generation-breadcrumb-store]");
     const generationButtons = document.querySelectorAll("[data-open-generation]");
 
@@ -1560,6 +1561,29 @@
       });
     };
 
+    const getGenerationAssignment = (vendorName, dayIndex) => {
+      if (!vendorName || dayIndex === undefined || dayIndex === null) return null;
+      return generationAssignments[vendorName]?.[dayIndex] || null;
+    };
+
+    const getGenerationBoardCellClassName = (shiftId) => {
+      if (!shiftId) return "generation-board-cell";
+      if (shiftId === "custom") return "generation-board-cell assigned custom";
+
+      const selectedShift = generationShiftOptions.find((option) => option.id === shiftId);
+      return selectedShift ? `generation-board-cell assigned ${selectedShift.tone}` : "generation-board-cell";
+    };
+
+    const renderGenerationBoardCellContent = (shiftId) => {
+      if (!shiftId) return "Asignar Turno";
+      if (shiftId === "custom") return `<strong>Personalizado</strong><small>Configurar turno</small>`;
+
+      const selectedShift = generationShiftOptions.find((option) => option.id === shiftId);
+      if (!selectedShift) return "Asignar Turno";
+
+      return `<strong>${selectedShift.title}</strong><small>${selectedShift.schedule}</small>`;
+    };
+
     const renderGenerationBoard = () => {
       if (!generationBoardBody || !generationEmptyState) return;
 
@@ -1579,7 +1603,10 @@
       generationBoardBody.innerHTML = selectedVendors.map((vendorName) => `
         <div class="generation-board-row">
           <div class="generation-board-vendor">${vendorName}</div>
-          ${Array.from({ length: 7 }, (_, dayIndex) => `<button class="generation-board-cell" type="button" data-generation-assign-trigger data-day-index="${dayIndex}">Asignar Turno</button>`).join("")}
+          ${Array.from({ length: 7 }, (_, dayIndex) => {
+            const shiftId = getGenerationAssignment(vendorName, dayIndex);
+            return `<button class="${getGenerationBoardCellClassName(shiftId)}" type="button" data-generation-assign-trigger data-vendor-name="${vendorName}" data-day-index="${dayIndex}">${renderGenerationBoardCellContent(shiftId)}</button>`;
+          }).join("")}
         </div>
       `).join("");
     };
@@ -1620,17 +1647,16 @@
     const applyGenerationShiftToCell = (cell, shiftId) => {
       if (!cell) return;
 
-      if (shiftId === "custom") {
-        cell.className = "generation-board-cell assigned custom";
-        cell.innerHTML = `<strong>Personalizado</strong><small>Configurar turno</small>`;
-        return;
+      const vendorName = cell.dataset.vendorName;
+      const dayIndex = cell.dataset.dayIndex;
+
+      if (vendorName && dayIndex !== undefined) {
+        generationAssignments[vendorName] ??= {};
+        generationAssignments[vendorName][dayIndex] = shiftId;
       }
 
-      const selectedShift = generationShiftOptions.find((option) => option.id === shiftId);
-      if (!selectedShift) return;
-
-      cell.className = `generation-board-cell assigned ${selectedShift.tone}`;
-      cell.innerHTML = `<strong>${selectedShift.title}</strong><small>${selectedShift.schedule}</small>`;
+      cell.className = getGenerationBoardCellClassName(shiftId);
+      cell.innerHTML = renderGenerationBoardCellContent(shiftId);
     };
 
     const openGenerationAssignMenu = (button) => {
@@ -1652,12 +1678,18 @@
         const rect = button.getBoundingClientRect();
         const menuRect = generationAssignMenu.getBoundingClientRect();
         const margin = 16;
-        const left = Math.min(Math.max(rect.left, margin), window.innerWidth - menuRect.width - margin);
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        const spaceBelow = viewportHeight - rect.bottom - margin;
+        const spaceAbove = rect.top - margin;
+        const left = Math.min(Math.max(rect.left, margin), viewportWidth - menuRect.width - margin);
         let top = rect.bottom + 8;
 
-        if (top + menuRect.height > window.innerHeight - margin) {
-          top = Math.max(margin, rect.top - menuRect.height - 8);
+        if (spaceBelow < menuRect.height && spaceAbove > spaceBelow) {
+          top = rect.top - menuRect.height - 8;
         }
+
+        top = Math.min(Math.max(top, margin), viewportHeight - menuRect.height - margin);
 
         generationAssignMenu.style.left = `${left}px`;
         generationAssignMenu.style.top = `${top}px`;
