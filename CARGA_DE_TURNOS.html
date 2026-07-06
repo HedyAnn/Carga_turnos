@@ -143,21 +143,21 @@
                     <input type="checkbox" data-select-all />
                     <span>Seleccionar todo</span>
                   </label>
-                  <label class="dropdown-option" data-option-text="Zona norte Bogotá">
-                    <input type="checkbox" value="Zona norte Bogotá" />
-                    <span>Zona norte Bogotá</span>
+                  <label class="dropdown-option" data-option-text="Zona norte BogotÃ¡">
+                    <input type="checkbox" value="Zona norte BogotÃ¡" />
+                    <span>Zona norte BogotÃ¡</span>
                   </label>
-                  <label class="dropdown-option" data-option-text="Zona centro Bogotá">
-                    <input type="checkbox" value="Zona centro Bogotá" />
-                    <span>Zona centro Bogotá</span>
+                  <label class="dropdown-option" data-option-text="Zona centro BogotÃ¡">
+                    <input type="checkbox" value="Zona centro BogotÃ¡" />
+                    <span>Zona centro BogotÃ¡</span>
                   </label>
                   <label class="dropdown-option" data-option-text="Tiendas Colombia">
                     <input type="checkbox" value="Tiendas Colombia" />
                     <span>Tiendas Colombia</span>
                   </label>
-                  <label class="dropdown-option" data-option-text="Tiendas Bogotá">
-                    <input type="checkbox" value="Tiendas Bogotá" />
-                    <span>Tiendas Bogotá</span>
+                  <label class="dropdown-option" data-option-text="Tiendas BogotÃ¡">
+                    <input type="checkbox" value="Tiendas BogotÃ¡" />
+                    <span>Tiendas BogotÃ¡</span>
                   </label>
                 </div>
               </div>
@@ -777,6 +777,11 @@
                     Turnos Asistencia
                   </button>
                 </div>
+
+                <button class="generation-board-clear-button" type="button" data-generation-clear-panel>
+                  <span class="material-symbols-outlined">ink_eraser</span>
+                  Limpiar panel
+                </button>
 
                 <div class="generation-calendar-head">
                   <span>Vendedor</span>
@@ -1576,12 +1581,12 @@
 
     const renderGenerationBoardCellContent = (shiftId) => {
       if (!shiftId) return "Asignar Turno";
-      if (shiftId === "custom") return `<strong>Personalizado</strong><small>Configurar turno</small>`;
+      if (shiftId === "custom") return `<span class="generation-board-cell-remove material-symbols-outlined" data-generation-remove-assignment aria-label="Quitar turno">close</span><strong>Personalizado</strong><small>Configurar turno</small>`;
 
       const selectedShift = generationShiftOptions.find((option) => option.id === shiftId);
       if (!selectedShift) return "Asignar Turno";
 
-      return `<strong>${selectedShift.title}</strong><small>${selectedShift.schedule}</small>`;
+      return `<span class="generation-board-cell-remove material-symbols-outlined" data-generation-remove-assignment aria-label="Quitar turno">close</span><strong>${selectedShift.title}</strong><small>${selectedShift.schedule}</small>`;
     };
 
     const renderGenerationBoard = () => {
@@ -1624,6 +1629,7 @@
     document.body.appendChild(generationAssignMenu);
 
     const generationAssignOptionsContainer = generationAssignMenu.querySelector("[data-generation-assign-options]");
+    const generationClearPanelButton = document.querySelector("[data-generation-clear-panel]");
 
     const renderGenerationAssignMenu = () => {
       if (!generationAssignOptionsContainer) return;
@@ -1644,6 +1650,18 @@
       activeGenerationBoardCell = null;
     };
 
+    const clearGenerationPanel = () => {
+      generationAssignments = {};
+      generationVendorCheckboxes.forEach((checkbox) => {
+        checkbox.checked = false;
+      });
+      if (generationSelectAll) {
+        generationSelectAll.checked = false;
+      }
+      closeGenerationAssignMenu();
+      renderGenerationBoard();
+    };
+
     const applyGenerationShiftToCell = (cell, shiftId) => {
       if (!cell) return;
 
@@ -1651,8 +1669,17 @@
       const dayIndex = cell.dataset.dayIndex;
 
       if (vendorName && dayIndex !== undefined) {
-        generationAssignments[vendorName] ??= {};
-        generationAssignments[vendorName][dayIndex] = shiftId;
+        if (!shiftId) {
+          if (generationAssignments[vendorName]) {
+            delete generationAssignments[vendorName][dayIndex];
+            if (Object.keys(generationAssignments[vendorName]).length === 0) {
+              delete generationAssignments[vendorName];
+            }
+          }
+        } else {
+          generationAssignments[vendorName] ??= {};
+          generationAssignments[vendorName][dayIndex] = shiftId;
+        }
       }
 
       cell.className = getGenerationBoardCellClassName(shiftId);
@@ -1769,6 +1796,16 @@
     });
 
     generationBoardBody?.addEventListener("click", (event) => {
+      const removeButton = event.target.closest("[data-generation-remove-assignment]");
+      if (removeButton) {
+        const trigger = removeButton.closest("[data-generation-assign-trigger]");
+        if (trigger) {
+          applyGenerationShiftToCell(trigger, "");
+        }
+        closeGenerationAssignMenu();
+        return;
+      }
+
       const trigger = event.target.closest("[data-generation-assign-trigger]");
       if (!trigger) return;
       openGenerationAssignMenu(trigger);
@@ -1790,6 +1827,10 @@
 
     generationBoardBody?.addEventListener("scroll", () => {
       if (!generationAssignMenu.hidden) closeGenerationAssignMenu();
+    });
+
+    generationClearPanelButton?.addEventListener("click", () => {
+      clearGenerationPanel();
     });
 
     generationModeSwitch?.addEventListener("click", (event) => {
@@ -1838,6 +1879,12 @@
   </script>
 </body>
 </html>
+
+
+
+
+
+
 
 
 

@@ -4554,3 +4554,61 @@ button#generation-store.detail-store-trigger.generation-static-trigger {
   }
 }
 
+
+
+
+/* Codex fix: generation board clear/remove controls */
+.generation-board-card {
+  position: relative;
+}
+
+.generation-board-clear-button {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid #cdd6e1;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #4f5f73;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  z-index: 2;
+}
+
+.generation-board-clear-button:hover {
+  border-color: #b7c3d4;
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
+  transform: translateY(-1px);
+}
+
+.generation-board-clear-button:active {
+  transform: translateY(0);
+}
+
+.generation-board-cell.assigned {
+  position: relative;
+  padding-top: 12px;
+  padding-right: 24px;
+}
+
+.generation-board-cell-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: currentColor;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 1;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.12);
+}
