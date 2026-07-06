@@ -1651,13 +1651,9 @@
     };
 
     const clearGenerationPanel = () => {
-      generationAssignments = {};
-      generationVendorCheckboxes.forEach((checkbox) => {
-        checkbox.checked = false;
+      Object.keys(generationAssignments).forEach((vendorName) => {
+        delete generationAssignments[vendorName];
       });
-      if (generationSelectAll) {
-        generationSelectAll.checked = false;
-      }
       closeGenerationAssignMenu();
       renderGenerationBoard();
     };
@@ -1867,6 +1863,10 @@
       if (generationStoreDropdown && !generationStoreDropdown.contains(event.target)) {
         closeGenerationStoreDropdown();
       }
+
+      if (generationWeekDropdown && !generationWeekDropdown.contains(event.target)) {
+        closeGenerationWeekDropdown();
+      }
     });
 
     document.addEventListener("keydown", (event) => {
@@ -1875,10 +1875,13 @@
       dropdowns.forEach((dropdown) => closeDropdown(dropdown));
       closeDetailStoreDropdown();
       closeGenerationStoreDropdown();
+      closeGenerationWeekDropdown();
     });
   </script>
 </body>
 </html>
+
+
 
 
 
