@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -143,21 +143,21 @@
                     <input type="checkbox" data-select-all />
                     <span>Seleccionar todo</span>
                   </label>
-                  <label class="dropdown-option" data-option-text="Zona norte BogotÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡">
-                    <input type="checkbox" value="Zona norte BogotÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡" />
-                    <span>Zona norte BogotÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡</span>
+                  <label class="dropdown-option" data-option-text="Zona norte Bogotá">
+                    <input type="checkbox" value="Zona norte Bogotá" />
+                    <span>Zona norte Bogotá</span>
                   </label>
-                  <label class="dropdown-option" data-option-text="Zona centro BogotÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡">
-                    <input type="checkbox" value="Zona centro BogotÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡" />
-                    <span>Zona centro BogotÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡</span>
+                  <label class="dropdown-option" data-option-text="Zona centro Bogotá">
+                    <input type="checkbox" value="Zona centro Bogotá" />
+                    <span>Zona centro Bogotá</span>
                   </label>
                   <label class="dropdown-option" data-option-text="Tiendas Colombia">
                     <input type="checkbox" value="Tiendas Colombia" />
                     <span>Tiendas Colombia</span>
                   </label>
-                  <label class="dropdown-option" data-option-text="Tiendas BogotÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡">
-                    <input type="checkbox" value="Tiendas BogotÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡" />
-                    <span>Tiendas BogotÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡</span>
+                  <label class="dropdown-option" data-option-text="Tiendas Bogotá">
+                    <input type="checkbox" value="Tiendas Bogotá" />
+                    <span>Tiendas Bogotá</span>
                   </label>
                 </div>
               </div>
@@ -616,7 +616,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-label="Semana">30-02-2025</td>
+                  <td data-label="Semana">02-03-2025</td>
                   <td data-label="Cobertura Periodo"><span class="status-pill complete"><span class="material-symbols-outlined">check_circle</span>100%</span></td>
                   <td data-label="Carga y Descarga de Turnos">
                     <div class="detail-icon-group">
@@ -653,11 +653,21 @@
               <span class="material-symbols-outlined arrow">chevron_right</span>
               <button class="breadcrumb-button" type="button" data-back-detail data-generation-breadcrumb-store>Turnos Arequipa</button>
               <span class="material-symbols-outlined arrow">chevron_right</span>
-              <strong>Generacion de Turnos</strong>
+              <strong>Generación de Turnos</strong>
             </div>
 
-            <h1>Generacion de Turnos</h1>
+            <h1>Generación de Turnos</h1>
           </header>
+
+          <div class="generation-save-alert" data-generation-save-alert hidden role="status" aria-live="polite">
+            <div class="generation-save-alert-copy">
+              <span class="material-symbols-outlined">check_circle</span>
+              <strong>Turnos guardados correctamente.</strong>
+            </div>
+            <button class="generation-save-alert-close" type="button" aria-label="Cerrar alerta" data-generation-save-alert-close>
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
 
         <section class="filters-row" aria-label="Filtros">
           <div class="filter-block period-block detail-period-block">
@@ -726,6 +736,7 @@
                   <button class="generation-week-option" type="button" data-generation-week-option="09-02-2025" aria-selected="false">09-02-2025</button>
                   <button class="generation-week-option" type="button" data-generation-week-option="16-02-2025" aria-selected="false">16-02-2025</button>
                   <button class="generation-week-option" type="button" data-generation-week-option="23-02-2025" aria-selected="false">23-02-2025</button>
+                  <button class="generation-week-option" type="button" data-generation-week-option="02-03-2025" aria-selected="false">02-03-2025</button>
                 </div>
               </div>
             </div>
@@ -827,7 +838,7 @@
                       </div>
                       <button class="detail-primary-button generation-config-button" type="button">
                         <span class="material-symbols-outlined">calendar_month</span>
-                        Configuracion
+                        Configuración
                       </button>
                     </div>
 
@@ -859,7 +870,8 @@
   </div>
 
   <script>
-    const weekColumns = ["02/02/2025", "09/02/2025", "16/02/2025", "23/02/2025", "30/02/2025"];
+    const reportingWeeks = ["02-02-2025", "09-02-2025", "16-02-2025", "23-02-2025", "02-03-2025"];
+    const weekColumns = reportingWeeks.map((date) => date.replaceAll("-", "/"));
     const coverageTableHead = document.getElementById("coverage-table-head");
     const coverageTableBody = document.getElementById("coverage-table-body");
     const tabButtons = document.querySelectorAll(".tab-button");
@@ -894,6 +906,7 @@
     const generationEmptyState = document.querySelector("[data-generation-empty-state]");
     const generationModeSwitch = document.querySelector("[data-generation-mode-switch]");
     const generationModePills = generationModeSwitch ? [...generationModeSwitch.querySelectorAll("[data-generation-mode]")] : [];
+    const generationWeekOptionButtons = generationWeekDropdown ? [...generationWeekDropdown.querySelectorAll("[data-generation-week-option]")] : [];
     const generationShiftOptions = [
       { id: "morning", title: "Ma\u00f1ana", schedule: "08:00 - 14:00", tone: "morning" },
       { id: "afternoon", title: "Tarde", schedule: "14:00 - 20:00", tone: "afternoon" },
@@ -904,6 +917,18 @@
     const generationAssignments = {};
     const generationBreadcrumbStore = document.querySelector("[data-generation-breadcrumb-store]");
     const generationButtons = document.querySelectorAll("[data-open-generation]");
+    const generationSaveButton = document.querySelector(".generation-save-button");
+    const generationSaveAlert = document.querySelector("[data-generation-save-alert]");
+    const generationSaveAlertCloseButton = document.querySelector("[data-generation-save-alert-close]");
+
+    const escapeHtml = (value) => String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll("\"", "&quot;")
+      .replaceAll("'", "&#39;");
+
+    const createCoverageCell = (tone, text) => ({ tone, text });
 
     const coverageViews = {
       all: {
@@ -911,68 +936,68 @@
           {
             store: "Arequipa",
             weeks: [
-              { tone: "complete", text: "100%" },
-              { tone: "complete", text: "100%" },
-              { tone: "critical", text: "20%" },
-              { tone: "partial", text: "85%" },
-              { tone: "complete", text: "100%" }
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("critical", "20%"),
+              createCoverageCell("partial", "85%"),
+              createCoverageCell("complete", "100%")
             ],
-            status: { tone: "partial", text: "Parcial" }
+            status: createCoverageCell("partial", "Parcial")
           },
           {
-            store: "Baby Plane Las condes",
-            weeks: Array.from({ length: 5 }, () => ({ tone: "complete", text: "100%" })),
-            status: { tone: "complete", text: "Completa" }
+            store: "Baby Plane Las Condes",
+            weeks: Array.from({ length: reportingWeeks.length }, () => createCoverageCell("complete", "100%")),
+            status: createCoverageCell("complete", "Completa")
           },
           {
             store: "Colloky Alto Las Condes",
-            weeks: Array.from({ length: 5 }, () => ({ tone: "critical", text: "20%" })),
-            status: { tone: "critical", text: "Critico" }
+            weeks: Array.from({ length: reportingWeeks.length }, () => createCoverageCell("critical", "20%")),
+            status: createCoverageCell("critical", "Cr?tico")
           },
           {
             store: "Colloky Antofagasta",
-            weeks: Array.from({ length: 5 }, () => ({ tone: "complete", text: "100%" })),
-            status: { tone: "complete", text: "Completa" }
+            weeks: Array.from({ length: reportingWeeks.length }, () => createCoverageCell("complete", "100%")),
+            status: createCoverageCell("complete", "Completa")
           },
           {
             store: "Colloky Costanera Center",
             weeks: [
-              { tone: "partial", text: "85%" },
-              { tone: "complete", text: "100%" },
-              { tone: "complete", text: "100%" },
-              { tone: "critical", text: "20%" },
-              { tone: "complete", text: "100%" }
+              createCoverageCell("partial", "85%"),
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("critical", "20%"),
+              createCoverageCell("complete", "100%")
             ],
-            status: { tone: "partial", text: "Parcial" }
+            status: createCoverageCell("partial", "Parcial")
           }
         ]
       },
       complete: {
         rows: [
           {
-            store: "Baby Plane Las condes",
-            weeks: Array.from({ length: 5 }, () => ({ tone: "complete", text: "100%" })),
-            status: { tone: "complete", text: "Completa" }
+            store: "Baby Plane Las Condes",
+            weeks: Array.from({ length: reportingWeeks.length }, () => createCoverageCell("complete", "100%")),
+            status: createCoverageCell("complete", "Completa")
           },
           {
             store: "Colloky Antofagasta",
-            weeks: Array.from({ length: 5 }, () => ({ tone: "complete", text: "100%" })),
-            status: { tone: "complete", text: "Completa" }
+            weeks: Array.from({ length: reportingWeeks.length }, () => createCoverageCell("complete", "100%")),
+            status: createCoverageCell("complete", "Completa")
           },
           {
             store: "Colloky Costanera Center",
-            weeks: Array.from({ length: 5 }, () => ({ tone: "complete", text: "100%" })),
-            status: { tone: "complete", text: "Completa" }
+            weeks: Array.from({ length: reportingWeeks.length }, () => createCoverageCell("complete", "100%")),
+            status: createCoverageCell("complete", "Completa")
           },
           {
             store: "Colloky La Florida Center",
-            weeks: Array.from({ length: 5 }, () => ({ tone: "complete", text: "100%" })),
-            status: { tone: "complete", text: "Completa" }
+            weeks: Array.from({ length: reportingWeeks.length }, () => createCoverageCell("complete", "100%")),
+            status: createCoverageCell("complete", "Completa")
           },
           {
             store: "Colloky Mall Plaza",
-            weeks: Array.from({ length: 5 }, () => ({ tone: "complete", text: "100%" })),
-            status: { tone: "complete", text: "Completa" }
+            weeks: Array.from({ length: reportingWeeks.length }, () => createCoverageCell("complete", "100%")),
+            status: createCoverageCell("complete", "Completa")
           }
         ]
       },
@@ -981,57 +1006,57 @@
           {
             store: "Arequipa",
             weeks: [
-              { tone: "complete", text: "100%" },
-              { tone: "complete", text: "100%" },
-              { tone: "critical", text: "20%" },
-              { tone: "complete", text: "100%" },
-              { tone: "complete", text: "100%" }
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("critical", "20%"),
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("complete", "100%")
             ],
-            status: { tone: "partial", text: "Parcial" }
+            status: createCoverageCell("partial", "Parcial")
           },
           {
             store: "Colloky Costanera Center",
             weeks: [
-              { tone: "complete", text: "100%" },
-              { tone: "complete", text: "100%" },
-              { tone: "complete", text: "100%" },
-              { tone: "critical", text: "20%" },
-              { tone: "complete", text: "100%" }
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("critical", "20%"),
+              createCoverageCell("complete", "100%")
             ],
-            status: { tone: "partial", text: "Parcial" }
+            status: createCoverageCell("partial", "Parcial")
           },
           {
             store: "Colloky Plaza Oeste",
             weeks: [
-              { tone: "complete", text: "100%" },
-              { tone: "complete", text: "100%" },
-              { tone: "complete", text: "100%" },
-              { tone: "critical", text: "20%" },
-              { tone: "complete", text: "100%" }
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("critical", "20%"),
+              createCoverageCell("complete", "100%")
             ],
-            status: { tone: "partial", text: "Parcial" }
+            status: createCoverageCell("partial", "Parcial")
           },
           {
             store: "Colloky Plaza Vespucio",
             weeks: [
-              { tone: "complete", text: "100%" },
-              { tone: "complete", text: "100%" },
-              { tone: "complete", text: "100%" },
-              { tone: "critical", text: "20%" },
-              { tone: "complete", text: "100%" }
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("critical", "20%"),
+              createCoverageCell("complete", "100%")
             ],
-            status: { tone: "partial", text: "Parcial" }
+            status: createCoverageCell("partial", "Parcial")
           },
           {
             store: "Colloky Costanera Center",
             weeks: [
-              { tone: "complete", text: "100%" },
-              { tone: "complete", text: "100%" },
-              { tone: "complete", text: "100%" },
-              { tone: "complete", text: "100%" },
-              { tone: "critical", text: "20%" }
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("complete", "100%"),
+              createCoverageCell("critical", "20%")
             ],
-            status: { tone: "partial", text: "Parcial" }
+            status: createCoverageCell("partial", "Parcial")
           }
         ]
       },
@@ -1039,28 +1064,28 @@
         rows: [
           {
             store: "Colloky Alto Las Condes",
-            weeks: Array.from({ length: 5 }, () => ({ tone: "critical", text: "20%" })),
-            status: { tone: "critical", text: "Critico" }
+            weeks: Array.from({ length: reportingWeeks.length }, () => createCoverageCell("critical", "20%")),
+            status: createCoverageCell("critical", "Cr?tico")
           },
           {
             store: "Colloky Estacion Central",
-            weeks: Array.from({ length: 5 }, () => ({ tone: "critical", text: "20%" })),
-            status: { tone: "critical", text: "Critico" }
+            weeks: Array.from({ length: reportingWeeks.length }, () => createCoverageCell("critical", "20%")),
+            status: createCoverageCell("critical", "Cr?tico")
           },
           {
             store: "Colloky Marina Arauco",
-            weeks: Array.from({ length: 5 }, () => ({ tone: "critical", text: "20%" })),
-            status: { tone: "critical", text: "Critico" }
+            weeks: Array.from({ length: reportingWeeks.length }, () => createCoverageCell("critical", "20%")),
+            status: createCoverageCell("critical", "Cr?tico")
           },
           {
             store: "Colloky Panoramico",
-            weeks: Array.from({ length: 5 }, () => ({ tone: "critical", text: "20%" })),
-            status: { tone: "critical", text: "Critico" }
+            weeks: Array.from({ length: reportingWeeks.length }, () => createCoverageCell("critical", "20%")),
+            status: createCoverageCell("critical", "Cr?tico")
           },
           {
             store: "Colloky Alto Las Condes",
-            weeks: Array.from({ length: 5 }, () => ({ tone: "critical", text: "20%" })),
-            status: { tone: "critical", text: "Critico" }
+            weeks: Array.from({ length: reportingWeeks.length }, () => createCoverageCell("critical", "20%")),
+            status: createCoverageCell("critical", "Cr?tico")
           }
         ]
       }
@@ -1082,8 +1107,8 @@
     ].filter((store, index, stores) => stores.indexOf(store) === index);
 
     const renderCoveragePill = (cell, summary = false) => `
-      <span class="status-pill ${cell.tone}${summary ? " summary" : ""}">
-        <span class="material-symbols-outlined">${toneToIcon[cell.tone]}</span>${cell.text}
+      <span class="status-pill ${escapeHtml(cell.tone)}${summary ? " summary" : ""}">
+        <span class="material-symbols-outlined">${escapeHtml(toneToIcon[cell.tone] || "")}</span>${escapeHtml(cell.text)}
       </span>
     `;
 
@@ -1092,7 +1117,7 @@
       if (!view || !coverageTableHead || !coverageTableBody) return;
 
       const headCells = weekColumns
-        .map((date) => `<th><span>Semana</span>${date.replaceAll("/", "-")}</th>`)
+        .map((date) => `<th><span>Semana</span>${escapeHtml(date.replaceAll("/", "-"))}</th>`)
         .join("");
 
       coverageTableHead.innerHTML = `
@@ -1106,12 +1131,12 @@
       coverageTableBody.innerHTML = view.rows
         .map((row) => {
           const weekCells = row.weeks
-            .map((cell, index) => `<td data-label="${weekColumns[index]}">${renderCoveragePill(cell)}</td>`)
+            .map((cell, index) => `<td data-label="${escapeHtml(weekColumns[index])}">${renderCoveragePill(cell)}</td>`)
             .join("");
 
           return `
             <tr>
-              <td data-label="Tienda"><a href="#" data-store-detail="${row.store}">${row.store}</a></td>
+              <td data-label="Tienda"><a href="#" data-store-detail="${escapeHtml(row.store)}">${escapeHtml(row.store)}</a></td>
               ${weekCells}
               <td data-label="Estado Cobertura">${renderCoveragePill(row.status, true)}</td>
             </tr>
@@ -1128,7 +1153,7 @@
 
     const setGenerationContext = ({ store, week }) => {
       const safeStore = store || detailStoreName?.textContent || "Arequipa";
-      const safeWeek = week || "02-02-2025";
+      const safeWeek = week || reportingWeeks[0];
 
       if (generationStoreLabel) generationStoreLabel.textContent = safeStore;
       if (generationWeekLabel) generationWeekLabel.textContent = safeWeek;
@@ -1152,7 +1177,7 @@
       if (detailStorePanel) detailStorePanel.hidden = false;
       if (detailStoreSearch) detailStoreSearch.value = "";
       renderDetailStoreOptions();
-    renderGenerationWeekOptions();
+      renderGenerationWeekOptions();
       detailStoreSearch?.focus();
     };
 
@@ -1228,7 +1253,7 @@
       button.addEventListener("click", () => {
         const row = button.closest("tr");
         const weekCell = row?.querySelector('[data-label="Semana"]');
-        const week = weekCell?.textContent?.trim() || row?.children?.[0]?.textContent?.trim() || "02-02-2025";
+        const week = weekCell?.textContent?.trim() || row?.children?.[0]?.textContent?.trim() || reportingWeeks[0];
         const store = detailStoreName?.textContent?.trim() || "Arequipa";
         setGenerationContext({ store, week });
         setActiveScreen("generation");
@@ -1495,8 +1520,8 @@
 
     const renderGenerationWeekOptions = (activeWeek) => {
       if (!generationWeekOptions) return;
-      const currentWeek = activeWeek || generationWeekLabel?.textContent?.trim() || "02-02-2025";
-      generationWeekOptions.querySelectorAll("[data-generation-week-option]").forEach((button) => {
+      const currentWeek = activeWeek || generationWeekLabel?.textContent?.trim() || reportingWeeks[0];
+      generationWeekOptionButtons.forEach((button) => {
         const isActive = button.dataset.generationWeekOption === currentWeek;
         button.classList.toggle("active", isActive);
         button.setAttribute("aria-selected", String(isActive));
@@ -1511,7 +1536,7 @@
       generationWeekDropdown?.classList.add("open");
       generationWeekTrigger?.setAttribute("aria-expanded", "true");
       if (generationWeekPanel) generationWeekPanel.hidden = false;
-      renderGenerationWeekOptions();
+        renderGenerationWeekOptions();
     };
 
     const closeGenerationStoreDropdown = () => {
@@ -1661,6 +1686,20 @@
       activeGenerationBoardCell = null;
     };
 
+    const closeGenerationSaveAlert = () => {
+      if (!generationSaveAlert) return;
+      generationSaveAlert.hidden = true;
+      generationSaveAlert.classList.remove("is-visible");
+    };
+
+    const openGenerationSaveAlert = () => {
+      if (!generationSaveAlert) return;
+      generationSaveAlert.hidden = false;
+      requestAnimationFrame(() => {
+        generationSaveAlert.classList.add("is-visible");
+      });
+    };
+
     const clearGenerationPanel = () => {
       Object.keys(generationAssignments).forEach((vendorName) => {
         delete generationAssignments[vendorName];
@@ -1732,7 +1771,7 @@
     };
 
     renderDetailStoreOptions();
-    renderGenerationWeekOptions();
+      renderGenerationWeekOptions();
 
     detailStoreTrigger?.addEventListener("click", () => {
       if (detailStoreDropdown?.classList.contains("open")) {
@@ -1840,6 +1879,15 @@
       clearGenerationPanel();
     });
 
+    generationSaveButton?.addEventListener("click", () => {
+      closeGenerationAssignMenu();
+      openGenerationSaveAlert();
+    });
+
+    generationSaveAlertCloseButton?.addEventListener("click", () => {
+      closeGenerationSaveAlert();
+    });
+
     generationModeSwitch?.addEventListener("click", (event) => {
       const button = event.target.closest("[data-generation-mode]");
       if (!button) return;
@@ -1891,6 +1939,15 @@
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 
