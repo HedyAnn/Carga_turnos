@@ -4654,3 +4654,89 @@ button#generation-store.detail-store-trigger.generation-static-trigger {
   transform: scale(1.04);
 }
 
+
+.page-view.generation-screen > .filters-row {
+  width: 100%;
+  max-width: none;
+  grid-template-columns: minmax(240px, 258px) minmax(240px, 260px) minmax(240px, 260px) auto;
+  align-items: end;
+  justify-content: stretch;
+}
+
+.page-view.generation-screen > .filters-row > .generation-header-actions {
+  justify-self: end;
+  align-self: end;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 14px;
+  width: auto;
+}
+
+.page-view.generation-screen .generation-preview-button,
+.page-view.generation-screen .generation-save-button {
+  height: 46px;
+  padding: 0 18px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.page-view.generation-screen .generation-preview-button {
+  border: 1px solid #016085;
+  background: #ffffff;
+  color: #016085;
+  box-shadow: none;
+}
+
+.page-view.generation-screen .generation-preview-button:hover {
+  background: #eef8fc;
+}
+
+.page-view.generation-screen .generation-save-button {
+  border: 1px solid #016085;
+  background: #016085;
+  color: #ffffff;
+  box-shadow: 0 10px 24px rgba(1, 96, 133, 0.18);
+}
+
+.page-view.generation-screen .generation-save-button:hover {
+  background: #0a6d94;
+  border-color: #0a6d94;
+  transform: translateY(-1px);
+}
+
+.page-view.generation-screen .generation-preview-button .material-symbols-outlined,
+.page-view.generation-screen .generation-save-button .material-symbols-outlined {
+  font-size: 19px;
+}
+
+@media (max-width: 1180px) {
+  .page-view.generation-screen > .filters-row {
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
+  }
+
+  .page-view.generation-screen > .filters-row > .generation-header-actions {
+    grid-column: 1 / -1;
+    justify-self: end;
+  }
+}
+
+@media (max-width: 760px) {
+  .page-view.generation-screen > .filters-row {
+    grid-template-columns: 1fr;
+  }
+
+  .page-view.generation-screen > .filters-row > .generation-header-actions {
+    justify-self: stretch;
+    flex-wrap: wrap;
+  }
+}
