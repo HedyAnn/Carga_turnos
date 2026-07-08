@@ -862,13 +862,13 @@
                       </button>
                     </div>
 
-                    <div class="generation-shift-pills">
+                    <div class="generation-shift-pills" data-generation-shift-pills>
                       <article class="generation-shift-pill morning"><strong>Ma&ntilde;ana</strong><small>08:00 - 14:00</small></article>
                       <article class="generation-shift-pill afternoon"><strong>Tarde</strong><small>14:00 - 20:00</small></article>
                       <article class="generation-shift-pill fullday"><strong>Full day</strong><small>08:00 - 20:00</small></article>
                       <article class="generation-shift-pill off"><strong>Libre</strong><small>Sin turno</small></article>
-                      <article class="generation-shift-pill create"><strong>+ Crear turno</strong></article>
-                      <article class="generation-shift-pill create"><strong>+ Crear turno</strong></article>
+                      <article class="generation-shift-pill create" data-open-create-shift><strong>+ Crear turno</strong></article>
+                      <article class="generation-shift-pill create" data-open-create-shift><strong>+ Crear turno</strong></article>
                     </div>
                   </div>
 
@@ -903,6 +903,96 @@
         </section>      </section>
     </main>
 
+  </div>
+
+  <div class="generation-create-modal" data-generation-create-modal hidden>
+    <div class="generation-create-modal-backdrop" data-generation-create-close></div>
+    <section class="generation-create-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="generation-create-title">
+      <header class="generation-create-modal-head">
+        <h2 id="generation-create-title" data-generation-create-title>Crear turno nuevo</h2>
+      </header>
+
+      <div class="generation-create-modal-body">
+        <label class="generation-create-field">
+          <span>Nombre del turno</span>
+          <input type="text" placeholder="Ej. Mañana" data-generation-create-name />
+        </label>
+
+        <div class="generation-create-toggle-row">
+          <div class="generation-create-toggle-copy">
+            <span>Día Libre</span>
+            <div class="generation-create-info-tooltip">
+              <button class="generation-create-info" type="button" aria-label="Información de día libre">
+                <span>i</span>
+              </button>
+              <div class="generation-create-info-panel" role="tooltip">
+                Si activas Día Libre, este turno se guardará sin horario de trabajo y se mostrará como un día sin asignación laboral para el vendedor.
+              </div>
+            </div>
+          </div>
+          <button class="generation-create-switch" type="button" role="switch" aria-checked="false" data-generation-create-off>
+            <span class="generation-create-switch-thumb"></span>
+          </button>
+        </div>
+
+        <div class="generation-create-time-grid" data-generation-create-time-grid>
+          <div class="generation-create-time-block">
+            <span>Horario de trabajo</span>
+            <div class="generation-create-time-inputs">
+              <label class="generation-create-time-field">
+                <input type="time" value="08:00" data-generation-create-start />
+                <span class="material-symbols-outlined">schedule</span>
+              </label>
+              <label class="generation-create-time-field">
+                <input type="time" value="14:00" data-generation-create-end />
+                <span class="material-symbols-outlined">schedule</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="generation-create-time-block">
+            <div class="generation-create-toggle-copy inline">
+              <span>Incluir Almuerzo</span>
+              <button class="generation-create-switch active" type="button" role="switch" aria-checked="true" data-generation-create-lunch>
+                <span class="generation-create-switch-thumb"></span>
+              </button>
+            </div>
+            <div class="generation-create-time-inputs" data-generation-create-lunch-fields>
+              <label class="generation-create-time-field">
+                <input type="time" value="12:00" data-generation-create-lunch-start />
+                <span class="material-symbols-outlined">schedule</span>
+              </label>
+              <label class="generation-create-time-field">
+                <input type="time" value="13:00" data-generation-create-lunch-end />
+                <span class="material-symbols-outlined">schedule</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="generation-create-color-block">
+          <span>Asignar Color</span>
+          <div class="generation-create-color-list" data-generation-create-colors>
+            <button class="generation-create-color-option active" type="button" data-generation-create-color="teal" aria-pressed="true"><span class="generation-create-color-swatch teal"></span></button>
+            <button class="generation-create-color-option" type="button" data-generation-create-color="yellow" aria-pressed="false"><span class="generation-create-color-swatch yellow"></span></button>
+            <button class="generation-create-color-option" type="button" data-generation-create-color="blue" aria-pressed="false"><span class="generation-create-color-swatch blue"></span></button>
+            <button class="generation-create-color-option" type="button" data-generation-create-color="red" aria-pressed="false"><span class="generation-create-color-swatch red"></span></button>
+            <button class="generation-create-color-option" type="button" data-generation-create-color="indigo" aria-pressed="false"><span class="generation-create-color-swatch indigo"></span></button>
+            <button class="generation-create-color-option" type="button" data-generation-create-color="orange" aria-pressed="false"><span class="generation-create-color-swatch orange"></span></button>
+            <button class="generation-create-color-option" type="button" data-generation-create-color="green" aria-pressed="false"><span class="generation-create-color-swatch green"></span></button>
+            <button class="generation-create-color-option" type="button" data-generation-create-color="purple" aria-pressed="false"><span class="generation-create-color-swatch purple"></span></button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="generation-create-modal-actions">
+        <button class="generation-create-delete" type="button" data-generation-create-delete aria-label="Eliminar turno">
+          <span class="material-symbols-outlined">delete</span>
+        </button>
+        <button class="secondary-button generation-create-cancel" type="button" data-generation-create-close>Cancelar</button>
+        <button class="primary-button generation-create-submit" type="button" data-generation-create-submit>Crear Turno</button>
+      </footer>
+    </section>
   </div>
 
   <script>
@@ -949,7 +1039,19 @@
       { id: "fullday", title: "Full day", schedule: "08:00 - 20:00", tone: "fullday" },
       { id: "off", title: "Libre", schedule: "Sin turno", tone: "off" }
     ];
+    const generationCustomShiftTones = {
+      teal: { board: "teal" },
+      yellow: { board: "yellow" },
+      blue: { board: "blue" },
+      red: { board: "red" },
+      indigo: { board: "indigo" },
+      orange: { board: "orange" },
+      green: { board: "green" },
+      purple: { board: "purple" }
+    };
     let activeGenerationBoardCell = null;
+    let generationEditingShiftId = null;
+    let generationCreateState = { isOff: false, includesLunch: true, color: "teal" };
     let activeGenerationMode = "meta-justa";
     const generationAssignmentsByMode = {
       "meta-justa": {},
@@ -964,6 +1066,23 @@
     const generationSaveButton = document.querySelector(".generation-save-button");
     const generationSaveAlert = document.querySelector("[data-generation-save-alert]");
     const generationSaveAlertCloseButton = document.querySelector("[data-generation-save-alert-close]");
+    const generationShiftPills = document.querySelector("[data-generation-shift-pills]");
+    const generationCreateModal = document.querySelector("[data-generation-create-modal]");
+    const generationCreateCloseButtons = document.querySelectorAll("[data-generation-create-close]");
+    const generationCreateTitle = document.querySelector("[data-generation-create-title]");
+    const generationCreateNameInput = document.querySelector("[data-generation-create-name]");
+    const generationCreateOffToggle = document.querySelector("[data-generation-create-off]");
+    const generationCreateLunchToggle = document.querySelector("[data-generation-create-lunch]");
+    const generationCreateTimeGrid = document.querySelector("[data-generation-create-time-grid]");
+    const generationCreateLunchFields = document.querySelector("[data-generation-create-lunch-fields]");
+    const generationCreateStartInput = document.querySelector("[data-generation-create-start]");
+    const generationCreateEndInput = document.querySelector("[data-generation-create-end]");
+    const generationCreateLunchStartInput = document.querySelector("[data-generation-create-lunch-start]");
+    const generationCreateLunchEndInput = document.querySelector("[data-generation-create-lunch-end]");
+    const generationCreateColorList = document.querySelector("[data-generation-create-colors]");
+    const generationCreateColorButtons = generationCreateColorList ? [...generationCreateColorList.querySelectorAll("[data-generation-create-color]")] : [];
+    const generationCreateDeleteButton = document.querySelector("[data-generation-create-delete]");
+    const generationCreateSubmitButton = document.querySelector("[data-generation-create-submit]");
     const generationLibraryDropdown = document.querySelector("[data-generation-library-dropdown]");
     const generationLibraryTrigger = generationLibraryDropdown?.querySelector(".generation-shift-trigger");
     const generationLibraryPanel = generationLibraryDropdown?.querySelector(".generation-library-panel");
@@ -991,6 +1110,21 @@
       "Tiendas de Calzado",
       "Juguetería"
     ];
+
+    const generationToneToColorMap = {
+      morning: "teal",
+      afternoon: "blue",
+      fullday: "purple",
+      off: "orange",
+      teal: "teal",
+      yellow: "yellow",
+      blue: "blue",
+      red: "red",
+      indigo: "indigo",
+      orange: "orange",
+      green: "green",
+      purple: "purple"
+    };
 
     const coverageViews = {
       all: {
@@ -1890,6 +2024,199 @@
       `).join("");
     };
 
+
+    const syncGenerationCreateColorSelection = () => {
+      generationCreateColorButtons.forEach((button) => {
+        const isActive = button.dataset.generationCreateColor === generationCreateState.color;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-pressed", String(isActive));
+      });
+    };
+
+    const syncGenerationCreateSwitch = (button, isActive) => {
+      if (!button) return;
+      button.classList.toggle("active", isActive);
+      button.setAttribute("aria-checked", String(isActive));
+    };
+
+    const syncGenerationCreateForm = () => {
+      syncGenerationCreateSwitch(generationCreateOffToggle, generationCreateState.isOff);
+      syncGenerationCreateSwitch(generationCreateLunchToggle, generationCreateState.includesLunch);
+      const disableWorkTimes = generationCreateState.isOff;
+      const disableLunchTimes = generationCreateState.isOff || !generationCreateState.includesLunch;
+      [generationCreateStartInput, generationCreateEndInput].forEach((input) => { if (input) input.disabled = disableWorkTimes; });
+      [generationCreateLunchStartInput, generationCreateLunchEndInput].forEach((input) => { if (input) input.disabled = disableLunchTimes; });
+      generationCreateTimeGrid?.classList.toggle("is-off", generationCreateState.isOff);
+      generationCreateLunchFields?.classList.toggle("is-disabled", disableLunchTimes);
+      syncGenerationCreateColorSelection();
+    };
+
+    const syncGenerationCreateModalMode = () => {
+      if (!generationCreateModal) return;
+      const isEditing = Boolean(generationEditingShiftId);
+      generationCreateModal.classList.toggle("is-editing", isEditing);
+      if (generationCreateTitle) {
+        generationCreateTitle.textContent = isEditing ? "Editar turno" : "Crear turno nuevo";
+      }
+      if (generationCreateSubmitButton) {
+        generationCreateSubmitButton.textContent = isEditing ? "Guardar" : "Crear Turno";
+      }
+    };
+
+    const getGenerationShiftTimeValues = (shiftOption) => {
+      const match = String(shiftOption?.schedule || "").match(/(\d{2}:\d{2})\s*-\s*(\d{2}:\d{2})/);
+      return {
+        start: shiftOption?.startTime || match?.[1] || "08:00",
+        end: shiftOption?.endTime || match?.[2] || "14:00",
+        lunchStart: shiftOption?.lunchStart || "12:00",
+        lunchEnd: shiftOption?.lunchEnd || "13:00"
+      };
+    };
+
+    const getGenerationShiftColor = (shiftOption) => generationToneToColorMap[shiftOption?.color] || generationToneToColorMap[shiftOption?.tone] || "teal";
+
+    const populateGenerationCreateForm = (shiftOption) => {
+      const timeValues = getGenerationShiftTimeValues(shiftOption);
+      generationCreateState = {
+        isOff: Boolean(shiftOption?.isOff) || shiftOption?.schedule === "Sin turno" || shiftOption?.tone === "off",
+        includesLunch: shiftOption?.includesLunch ?? true,
+        color: getGenerationShiftColor(shiftOption)
+      };
+      if (generationCreateNameInput) generationCreateNameInput.value = shiftOption?.title || "";
+      if (generationCreateStartInput) generationCreateStartInput.value = timeValues.start;
+      if (generationCreateEndInput) generationCreateEndInput.value = timeValues.end;
+      if (generationCreateLunchStartInput) generationCreateLunchStartInput.value = timeValues.lunchStart;
+      if (generationCreateLunchEndInput) generationCreateLunchEndInput.value = timeValues.lunchEnd;
+      syncGenerationCreateColorSelection();
+      syncGenerationCreateForm();
+    };
+
+    const resetGenerationCreateForm = () => {
+      generationEditingShiftId = null;
+      generationCreateState = { isOff: false, includesLunch: true, color: "teal" };
+      if (generationCreateNameInput) generationCreateNameInput.value = "";
+      if (generationCreateStartInput) generationCreateStartInput.value = "08:00";
+      if (generationCreateEndInput) generationCreateEndInput.value = "14:00";
+      if (generationCreateLunchStartInput) generationCreateLunchStartInput.value = "12:00";
+      if (generationCreateLunchEndInput) generationCreateLunchEndInput.value = "13:00";
+      syncGenerationCreateForm();
+      syncGenerationCreateModalMode();
+    };
+
+    const closeGenerationCreateModal = () => {
+      if (!generationCreateModal) return;
+      generationCreateModal.hidden = true;
+      generationCreateModal.classList.remove("is-visible");
+    };
+
+    const openGenerationCreateModal = () => {
+      if (!generationCreateModal) return;
+      closeGenerationAssignMenu();
+      resetGenerationCreateForm();
+      generationCreateModal.hidden = false;
+      requestAnimationFrame(() => { generationCreateModal.classList.add("is-visible"); });
+      generationCreateNameInput?.focus();
+    };
+
+    const openGenerationEditModal = (shiftId) => {
+      if (!generationCreateModal) return;
+      const selectedShift = generationShiftOptions.find((option) => option.id === shiftId);
+      if (!selectedShift) return;
+      closeGenerationAssignMenu();
+      generationEditingShiftId = shiftId;
+      populateGenerationCreateForm(selectedShift);
+      syncGenerationCreateModalMode();
+      generationCreateModal.hidden = false;
+      requestAnimationFrame(() => { generationCreateModal.classList.add("is-visible"); });
+      generationCreateNameInput?.focus();
+    };
+
+    const GENERATION_SHIFT_LIMIT = 6;
+
+    const renderGenerationShiftPills = () => {
+      if (!generationShiftPills) return;
+
+      const visibleShiftOptions = generationShiftOptions.slice(0, GENERATION_SHIFT_LIMIT);
+      const remainingSlots = Math.max(0, GENERATION_SHIFT_LIMIT - visibleShiftOptions.length);
+
+      generationShiftPills.innerHTML = visibleShiftOptions.map((option) => `
+        <article class="generation-shift-pill ${option.tone}" data-generation-shift-id="${escapeHtml(option.id)}">
+          <strong>${escapeHtml(option.title)}</strong>
+          <small>${escapeHtml(option.schedule)}</small>
+        </article>
+      `).join("") + Array.from({ length: remainingSlots }, () => `
+        <article class="generation-shift-pill create" data-open-create-shift>
+          <strong>+ Crear turno</strong>
+        </article>
+      `).join("");
+    };
+
+    const saveGenerationShift = () => {
+      const shiftName = generationCreateNameInput?.value.trim();
+      if (!shiftName) {
+        generationCreateNameInput?.focus();
+        return;
+      }
+      const toneConfig = generationCustomShiftTones[generationCreateState.color] || generationCustomShiftTones.teal;
+      const startTime = generationCreateStartInput?.value || "08:00";
+      const endTime = generationCreateEndInput?.value || "14:00";
+      const lunchStart = generationCreateLunchStartInput?.value || "12:00";
+      const lunchEnd = generationCreateLunchEndInput?.value || "13:00";
+      const schedule = generationCreateState.isOff ? "Sin turno" : `${startTime} - ${endTime}`;
+      const shiftPayload = {
+        title: shiftName,
+        schedule,
+        tone: toneConfig.board,
+        color: generationCreateState.color,
+        isOff: generationCreateState.isOff,
+        includesLunch: generationCreateState.includesLunch,
+        startTime,
+        endTime,
+        lunchStart,
+        lunchEnd
+      };
+
+      if (generationEditingShiftId) {
+        const existingShift = generationShiftOptions.find((option) => option.id === generationEditingShiftId);
+        if (!existingShift) return;
+        Object.assign(existingShift, shiftPayload);
+      } else {
+        if (generationShiftOptions.length >= GENERATION_SHIFT_LIMIT) {
+          closeGenerationCreateModal();
+          return;
+        }
+        generationShiftOptions.push({
+          id: `custom-${Date.now()}`,
+          ...shiftPayload
+        });
+      }
+
+      renderGenerationShiftPills();
+      renderGenerationAssignMenu();
+      renderGenerationBoard();
+      closeGenerationCreateModal();
+    };
+
+    const deleteGenerationShift = () => {
+      if (!generationEditingShiftId) return;
+      const shiftIndex = generationShiftOptions.findIndex((option) => option.id === generationEditingShiftId);
+      if (shiftIndex < 0) return;
+
+      generationShiftOptions.splice(shiftIndex, 1);
+      Object.values(generationAssignmentsByMode).forEach((assignments) => {
+        Object.keys(assignments).forEach((key) => {
+          if (assignments[key] === generationEditingShiftId) {
+            delete assignments[key];
+          }
+        });
+      });
+
+      renderGenerationShiftPills();
+      renderGenerationAssignMenu();
+      renderGenerationBoard();
+      closeGenerationCreateModal();
+    };
+
     const closeGenerationAssignMenu = () => {
       generationAssignMenu.hidden = true;
       generationAssignMenu.classList.remove("open");
@@ -2147,6 +2474,43 @@
       closeGenerationSaveAlert();
     });
 
+
+    generationShiftPills?.addEventListener("click", (event) => {
+      const createTrigger = event.target.closest("[data-open-create-shift]");
+      if (createTrigger) {
+        openGenerationCreateModal();
+        return;
+      }
+
+      const shiftPill = event.target.closest("[data-generation-shift-id]");
+      if (!shiftPill) return;
+      openGenerationEditModal(shiftPill.dataset.generationShiftId);
+    });
+
+    generationCreateCloseButtons.forEach((button) => {
+      button.addEventListener("click", closeGenerationCreateModal);
+    });
+
+    generationCreateOffToggle?.addEventListener("click", () => {
+      generationCreateState.isOff = !generationCreateState.isOff;
+      syncGenerationCreateForm();
+    });
+
+    generationCreateLunchToggle?.addEventListener("click", () => {
+      generationCreateState.includesLunch = !generationCreateState.includesLunch;
+      syncGenerationCreateForm();
+    });
+
+    generationCreateColorList?.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-generation-create-color]");
+      if (!button) return;
+      generationCreateState.color = button.dataset.generationCreateColor || "teal";
+      syncGenerationCreateColorSelection();
+    });
+
+    generationCreateDeleteButton?.addEventListener("click", deleteGenerationShift);
+    generationCreateSubmitButton?.addEventListener("click", saveGenerationShift);
+
     generationModeSwitch?.addEventListener("click", (event) => {
       const button = event.target.closest("[data-generation-mode]");
       if (!button) return;
@@ -2154,6 +2518,7 @@
       setGenerationMode(button.dataset.generationMode);
     });
 
+    renderGenerationShiftPills();
     setGenerationMode("meta-justa");
 
 
@@ -2203,10 +2568,22 @@
       closeGenerationWeekDropdown();
       closeGenerationLibraryDropdown();
       closeGenerationCopyDropdown();
+      closeGenerationCreateModal();
     });
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
