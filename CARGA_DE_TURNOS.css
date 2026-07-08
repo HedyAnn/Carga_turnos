@@ -5519,3 +5519,225 @@ button#generation-store.detail-store-trigger.generation-static-trigger {
 }
 
 
+
+/* Codex override: hover feedback for generation shift cards */
+.generation-shift-pill {
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, filter 0.18s ease;
+}
+
+.generation-shift-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
+  filter: saturate(1.05);
+}
+
+.generation-shift-pill:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.1);
+}
+
+.generation-shift-pill.create:hover {
+  border-color: #7fb6cf;
+  background: #f4fbff;
+}
+
+/* Codex override: generation configuration screen */
+.generation-config-screen {
+  display: grid;
+  gap: 18px;
+}
+
+.generation-config-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.generation-config-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: min(100%, 370px);
+}
+
+.generation-config-search .material-symbols-outlined {
+  position: absolute;
+  left: 16px;
+  color: #7b8794;
+  font-size: 20px;
+}
+
+.generation-config-search input {
+  width: 100%;
+  height: 38px;
+  padding: 0 16px 0 44px;
+  border: 1px solid #cfd8e3;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #475569;
+  font-size: 14px;
+  outline: 0;
+}
+
+.generation-config-search input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(1, 96, 133, 0.12);
+}
+
+.generation-config-new-button {
+  min-height: 36px;
+}
+
+.generation-config-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.generation-config-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.generation-config-table th,
+.generation-config-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-soft);
+  vertical-align: middle;
+}
+
+.generation-config-table thead th {
+  color: #667486;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-align: left;
+}
+
+.generation-config-table th:first-child,
+.generation-config-table td:first-child {
+  width: 480px;
+  min-width: 480px;
+  max-width: 480px;
+}
+.generation-config-table thead th:nth-child(2) {
+  text-align: left;
+}
+
+.generation-config-table thead th:last-child,
+.generation-config-table tbody td:last-child {
+  width: 110px;
+  text-align: center;
+}
+
+.generation-config-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.generation-config-category {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.generation-config-category-icon {
+  color: #0f6f97;
+  font-size: 22px;
+  margin-top: 2px;
+}
+
+.generation-config-category strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.generation-config-category p {
+  margin: 0;
+  color: #6b7788;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.generation-config-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.generation-config-chips .generation-shift-pill {
+  min-width: 100px;
+  cursor: default;
+  box-shadow: none;
+}
+
+.generation-config-chips .generation-shift-pill:hover,
+.generation-config-chips .generation-shift-pill:active {
+  transform: none;
+  box-shadow: none;
+  filter: none;
+}
+
+.generation-config-chips .generation-shift-pill.static {
+  border-style: dashed;
+  color: #98a4b5;
+  background: #ffffff;
+}
+
+.generation-config-actions {
+  justify-content: center;
+}
+
+@media (max-width: 1080px) {
+  .generation-config-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .generation-config-search {
+    width: 100%;
+  }
+}
+
+@media (max-width: 820px) {
+  .generation-config-card {
+    overflow-x: auto;
+  }
+
+  .generation-config-table {
+    min-width: 980px;
+  }
+}
+
+
+.page-view[hidden] {
+  display: none !important;
+}
+
+
+/* Codex override: interactive config shift cards */
+.generation-config-chips .generation-shift-pill {
+  cursor: pointer;
+}
+
+.generation-config-chips .generation-shift-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
+  filter: saturate(1.05);
+}
+
+.generation-config-chips .generation-shift-pill:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.1);
+}
+
+.generation-config-chips .generation-shift-pill.static:hover {
+  border-color: #7fb6cf;
+  background: #f4fbff;
+  color: #7b8ba1;
+}
