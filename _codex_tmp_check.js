@@ -57,6 +57,7 @@
     let generationEditingShiftId = null;
     let generationCreateState = { isOff: false, includesLunch: true, color: "teal" };
     let generationModalContext = { surface: "main", card: null, isEditing: false };
+    let generationCategoryEditingRow = null;
     let activeGenerationMode = "meta-justa";
     const generationAssignmentsByMode = {
       "meta-justa": {},
@@ -91,6 +92,8 @@
     const generationCreateSubmitButton = document.querySelector("[data-generation-create-submit]");
     const generationCategoryModal = document.querySelector("[data-generation-category-modal]");
     const generationCategoryCloseButtons = document.querySelectorAll("[data-generation-category-close]");
+    const generationCategoryTitle = document.querySelector("[data-generation-category-title]");
+    const generationCategorySubtitle = document.querySelector("[data-generation-category-subtitle]");
     const generationCategoryNameInput = document.querySelector("[data-generation-category-name]");
     const generationCategoryDescriptionInput = document.querySelector("[data-generation-category-description]");
     const generationCategoryCounter = document.querySelector("[data-generation-category-counter]");
@@ -1219,10 +1222,30 @@
       generationEditingShiftId = null;
       generationModalContext = { surface: "main", card: null, isEditing: false };
     };
+    const syncGenerationCategoryCounter = () => {
+      if (!generationCategoryDescriptionInput || !generationCategoryCounter) return;
+      const maxLength = Number(generationCategoryDescriptionInput.getAttribute("maxlength") || 100);
+      const currentLength = generationCategoryDescriptionInput.value.length;
+      generationCategoryCounter.textContent = `${currentLength}/${maxLength}`;
+    };
+
+    const syncGenerationCategoryModalMode = () => {
+      const isEditing = Boolean(generationCategoryEditingRow);
+      if (generationCategoryTitle) generationCategoryTitle.textContent = isEditing ? "Editar Categoría de Turno" : "Nueva Categoría de Turno";
+      if (generationCategorySubtitle) generationCategorySubtitle.textContent = isEditing
+        ? "Actualiza el nombre y la descripción de esta categoría para mantenerla organizada."
+        : "Crea una nueva categoría para organizar turnos que usarás con frecuencia.";
+      if (generationCategorySubmitButton) generationCategorySubmitButton.textContent = isEditing ? "Guardar Cambios" : "Crear Categoría";
+    };
+
     const resetGenerationCategoryForm = () => {
+      generationCategoryEditingRow = null;
       if (generationCategoryNameInput) generationCategoryNameInput.value = "";
       if (generationCategoryDescriptionInput) generationCategoryDescriptionInput.value = "";
+      syncGenerationCategoryCounter();
+      syncGenerationCategoryModalMode();
     };
+
     const openGenerationCategoryModal = () => {
       if (!generationCategoryModal) return;
       closeGenerationAssignMenu();
@@ -1231,6 +1254,22 @@
       requestAnimationFrame(() => { generationCategoryModal.classList.add("is-visible"); });
       generationCategoryNameInput?.focus();
     };
+
+    const openGenerationCategoryEditModal = (row) => {
+      if (!generationCategoryModal || !row) return;
+      closeGenerationAssignMenu();
+      generationCategoryEditingRow = row;
+      const title = row.querySelector(".generation-config-category strong")?.textContent?.trim() || "";
+      const description = row.querySelector(".generation-config-category p")?.textContent?.trim() || "";
+      if (generationCategoryNameInput) generationCategoryNameInput.value = title;
+      if (generationCategoryDescriptionInput) generationCategoryDescriptionInput.value = description === "Sin descripción" ? "" : description;
+      syncGenerationCategoryCounter();
+      syncGenerationCategoryModalMode();
+      generationCategoryModal.hidden = false;
+      requestAnimationFrame(() => { generationCategoryModal.classList.add("is-visible"); });
+      generationCategoryNameInput?.focus();
+    };
+
     const closeGenerationCategoryModal = () => {
       if (!generationCategoryModal) return;
       generationCategoryModal.hidden = true;
@@ -1366,8 +1405,19 @@
       }
       if (!generationConfigTableBody) return;
 
-      generationConfigTableBody.insertAdjacentHTML("beforeend", buildGenerationConfigCategoryRow(categoryName, categoryDescription));
+      if (generationCategoryEditingRow) {
+        const titleNode = generationCategoryEditingRow.querySelector(".generation-config-category strong");
+        const descriptionNode = generationCategoryEditingRow.querySelector(".generation-config-category p");
+        if (titleNode) titleNode.textContent = categoryName;
+        if (descriptionNode) descriptionNode.textContent = categoryDescription || "Sin descripción";
+        closeGenerationCategoryModal();
+        resetGenerationCategoryForm();
+        return;
+      }
+
+      generationConfigTableBody.insertAdjacentHTML("afterbegin", buildGenerationConfigCategoryRow(categoryName, categoryDescription));
       closeGenerationCategoryModal();
+      resetGenerationCategoryForm();
     };
 
     const closeGenerationAssignMenu = () => {
@@ -1667,12 +1717,21 @@
     generationCategoryCloseButtons.forEach((button) => {
       button.addEventListener("click", closeGenerationCategoryModal);
     });
+    generationCategoryDescriptionInput?.addEventListener("input", syncGenerationCategoryCounter);
     generationCategorySubmitButton?.addEventListener("click", createGenerationCategory);
+    syncGenerationCategoryCounter();
+    syncGenerationCategoryModalMode();
 
     generationConfigTable?.addEventListener("click", (event) => {
       const deleteButton = event.target.closest(".detail-square-button.danger");
       if (deleteButton) {
         deleteButton.closest("tr")?.remove();
+        return;
+      }
+
+      const editCategoryButton = event.target.closest(".detail-square-button.edit");
+      if (editCategoryButton) {
+        openGenerationCategoryEditModal(editCategoryButton.closest("tr"));
         return;
       }
 
