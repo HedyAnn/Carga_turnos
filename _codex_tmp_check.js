@@ -3,6 +3,9 @@
     const weekColumns = reportingWeeks.map((date) => date.replaceAll("-", "/"));
     const coverageTableHead = document.getElementById("coverage-table-head");
     const coverageTableBody = document.getElementById("coverage-table-body");
+    const excelUploadButton = document.querySelector("[data-open-excel-upload]");
+    const excelDownloadButton = document.querySelector("[data-open-excel-download]");
+    const excelUploadInput = document.querySelector("[data-excel-upload-input]");
     const tabButtons = document.querySelectorAll(".tab-button");
     const overviewScreen = document.querySelector('[data-view-screen="overview"]');
     const detailScreen = document.querySelector('[data-view-screen="detail"]');
@@ -67,6 +70,19 @@
       "meta-justa": [],
       asistencia: [],
     };
+    const generationEditPresets = {
+      "02-02-2025": {
+        selectedVendors: ["Javier Soto Pérez", "Viviana Núñez Toledo", "Juan Carrasco Soto"],
+        assignmentsByMode: {
+          "meta-justa": {
+            "Javier Soto Pérez": { 0: "morning", 1: "afternoon", 2: "fullday", 3: "afternoon", 4: "off", 5: "off", 6: "morning" },
+            "Viviana Núñez Toledo": { 0: "afternoon", 1: "morning", 2: "afternoon", 3: "fullday", 4: "morning", 5: "off", 6: "off" },
+            "Juan Carrasco Soto": { 0: "fullday", 1: "afternoon", 2: "morning", 3: "afternoon", 4: "fullday", 5: "off", 6: "off" }
+          },
+          asistencia: {}
+        }
+      }
+    };
     const generationBreadcrumbStore = document.querySelector("[data-generation-breadcrumb-store]");
     const generationButtons = document.querySelectorAll("[data-open-generation]");
     const generationSaveButton = document.querySelector(".generation-save-button");
@@ -121,6 +137,15 @@
       .replaceAll("'", "&#39;");
 
     const createCoverageCell = (tone, text) => ({ tone, text });
+
+    const excelFilePickerTypes = [{
+      description: "Archivos de Excel",
+      accept: {
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
+        "application/vnd.ms-excel": [".xls"],
+        "text/csv": [".csv"]
+      }
+    }];
     const generationLibraryItems = [
       "Turnos Santiago de Chile",
       "Turnos Colombia",
@@ -408,6 +433,36 @@
       renderGenerationStoreOptions?.(generationStoreSearch?.value || "");
     };
 
+    const cloneGenerationAssignments = (assignments = {}) => Object.fromEntries(
+      Object.entries(assignments).map(([vendorName, days]) => [vendorName, { ...days }])
+    );
+
+    const loadGenerationEditPreset = (week) => {
+      const preset = generationEditPresets[week];
+      if (!preset) return false;
+
+      generationSelectedVendorsByMode["meta-justa"] = [...(preset.selectedVendors || [])];
+      generationSelectedVendorsByMode.asistencia = [...(preset.selectedVendorsAsistencia || [])];
+      generationAssignmentsByMode["meta-justa"] = cloneGenerationAssignments(preset.assignmentsByMode?.["meta-justa"] || {});
+      generationAssignmentsByMode.asistencia = cloneGenerationAssignments(preset.assignmentsByMode?.asistencia || {});
+      syncGenerationVendorSelection(activeGenerationMode);
+      renderGenerationBoard(activeGenerationMode);
+      return true;
+    };
+
+    const openGenerationScreen = ({ store, week, presetWeek = "" } = {}) => {
+      setActiveScreen("generation");
+      setGenerationContext({ store, week });
+      closeGenerationAssignMenu();
+      closeGenerationSaveAlert();
+      if (presetWeek) {
+        loadGenerationEditPreset(presetWeek);
+      } else {
+        syncGenerationVendorSelection(activeGenerationMode);
+        renderGenerationBoard(activeGenerationMode);
+      }
+    };
+
     const closeDetailStoreDropdown = () => {
       detailStoreDropdown?.classList.remove("open");
       detailStoreTrigger?.setAttribute("aria-expanded", "false");
@@ -505,8 +560,19 @@
         const weekCell = row?.querySelector('[data-label="Semana"]');
         const week = weekCell?.textContent?.trim() || row?.children?.[0]?.textContent?.trim() || reportingWeeks[0];
         const store = detailStoreName?.textContent?.trim() || "Arequipa";
-        setGenerationContext({ store, week });
-        setActiveScreen("generation");
+        openGenerationScreen({ store, week });
+      });
+    });
+
+    document.querySelectorAll("[data-open-generation-edit]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const row = button.closest("[data-detail-generation-row]");
+        if (!row) return;
+        openGenerationScreen({
+          store: row.dataset.detailStore || detailStoreName?.textContent?.trim() || "Arequipa",
+          week: row.dataset.detailWeek || reportingWeeks[0],
+          presetWeek: row.dataset.detailWeek || ""
+        });
       });
     });
 
@@ -1427,6 +1493,71 @@
       generationAssignMenu.style.top = "";
       generationAssignMenu.style.visibility = "";
       activeGenerationBoardCell = null;
+    };
+
+    const buildCoverageExportContent = () => {
+      const header = ["Tienda", ...reportingWeeks, "Estado Cobertura"].join(",");
+      const rows = coverageViews.all.rows.map((row) => {
+        const weekValues = row.weeks.map((week) => week.text);
+        return [row.store, ...weekValues, row.status.text]
+          .map((value) => `"${String(value).replaceAll('"', '""')}"`)
+          .join(",");
+      });
+
+      return [header, ...rows].join("\r\n");
+    };
+
+    const triggerExcelDownloadFallback = () => {
+      const blob = new Blob([buildCoverageExportContent()], { type: "text/csv;charset=utf-8" });
+      const downloadUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = "estado-cobertura.csv";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+    };
+
+    const openExcelUploadDialog = async () => {
+      if (window.showOpenFilePicker) {
+        try {
+          await window.showOpenFilePicker({
+            multiple: false,
+            excludeAcceptAllOption: false,
+            types: excelFilePickerTypes
+          });
+        } catch (error) {
+          if (error?.name !== "AbortError") console.error(error);
+        }
+        return;
+      }
+
+      excelUploadInput?.click();
+    };
+
+    const openExcelDownloadDialog = async () => {
+      if (window.showSaveFilePicker) {
+        try {
+          const handle = await window.showSaveFilePicker({
+            suggestedName: "estado-cobertura.csv",
+            types: [{
+              description: "Archivo CSV",
+              accept: {
+                "text/csv": [".csv"]
+              }
+            }]
+          });
+          const writable = await handle.createWritable();
+          await writable.write(buildCoverageExportContent());
+          await writable.close();
+        } catch (error) {
+          if (error?.name !== "AbortError") console.error(error);
+        }
+        return;
+      }
+
+      triggerExcelDownloadFallback();
     };
 
     const closeGenerationSaveAlert = () => {
