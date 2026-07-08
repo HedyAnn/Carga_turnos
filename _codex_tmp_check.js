@@ -463,6 +463,37 @@
       }
     };
 
+    const disableDetailActionButton = (button, ariaLabel) => {
+      if (!button) return;
+      button.className = "detail-square-button disabled";
+      button.disabled = true;
+      button.setAttribute("aria-label", ariaLabel);
+      button.removeAttribute("data-open-generation-edit");
+    };
+
+    const markDetailWeekAsDeleted = (row) => {
+      if (!row) return;
+      const week = row.dataset.detailWeek || row.children?.[0]?.textContent?.trim() || "";
+      const coverageCell = row.children?.[1];
+      const viewButton = row.querySelector('.detail-square-button.success, .detail-square-button[aria-label="Ver turno"]');
+      const downloadButton = row.querySelector('.detail-square-button.download');
+      const editButton = row.querySelector('[data-open-generation-edit], .detail-square-button.edit');
+      const deleteButton = row.querySelector('.detail-square-button.danger');
+
+      if (coverageCell) {
+        coverageCell.innerHTML = '<span class="status-pill critical"><span class="material-symbols-outlined">cancel</span>0%</span>';
+      }
+
+      disableDetailActionButton(viewButton, "Ver turno no disponible");
+      disableDetailActionButton(downloadButton, "Descarga no disponible");
+      disableDetailActionButton(editButton, "Editar no disponible");
+      disableDetailActionButton(deleteButton, "Eliminar no disponible");
+
+      if (week && generationEditPresets[week]) {
+        delete generationEditPresets[week];
+      }
+    };
+
     const closeDetailStoreDropdown = () => {
       detailStoreDropdown?.classList.remove("open");
       detailStoreTrigger?.setAttribute("aria-expanded", "false");
@@ -574,6 +605,20 @@
           presetWeek: row.dataset.detailWeek || ""
         });
       });
+    });
+
+    detailTableCard?.addEventListener("click", (event) => {
+      const deleteButton = event.target.closest('.detail-square-button.danger');
+      if (!deleteButton || deleteButton.disabled) return;
+
+      const row = deleteButton.closest('[data-detail-generation-row]');
+      if (!row) return;
+
+      const week = row.dataset.detailWeek || row.children?.[0]?.textContent?.trim() || "esta semana";
+      const confirmed = window.confirm("¿Estás segura de que quieres eliminar los turnos de la semana " + week + "?");
+      if (!confirmed) return;
+
+      markDetailWeekAsDeleted(row);
     });
 
     generationConfigButton?.addEventListener("click", () => {
