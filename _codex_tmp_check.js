@@ -1,4 +1,4 @@
-﻿
+
     const reportingWeeks = ["02-02-2025", "09-02-2025", "16-02-2025", "23-02-2025", "02-03-2025"];
     const weekColumns = reportingWeeks.map((date) => date.replaceAll("-", "/"));
     const coverageTableHead = document.getElementById("coverage-table-head");
@@ -56,6 +56,7 @@
     let activeGenerationBoardCell = null;
     let generationEditingShiftId = null;
     let generationCreateState = { isOff: false, includesLunch: true, color: "teal" };
+    let generationModalContext = { surface: "main", card: null, isEditing: false };
     let activeGenerationMode = "meta-justa";
     const generationAssignmentsByMode = {
       "meta-justa": {},
@@ -88,6 +89,12 @@
     const generationCreateColorButtons = generationCreateColorList ? [...generationCreateColorList.querySelectorAll("[data-generation-create-color]")] : [];
     const generationCreateDeleteButton = document.querySelector("[data-generation-create-delete]");
     const generationCreateSubmitButton = document.querySelector("[data-generation-create-submit]");
+    const generationCategoryModal = document.querySelector("[data-generation-category-modal]");
+    const generationCategoryCloseButtons = document.querySelectorAll("[data-generation-category-close]");
+    const generationCategoryNameInput = document.querySelector("[data-generation-category-name]");
+    const generationCategoryDescriptionInput = document.querySelector("[data-generation-category-description]");
+    const generationCategoryCounter = document.querySelector("[data-generation-category-counter]");
+    const generationCategorySubmitButton = document.querySelector("[data-generation-category-submit]");
     const generationLibraryDropdown = document.querySelector("[data-generation-library-dropdown]");
     const generationLibraryTrigger = generationLibraryDropdown?.querySelector(".generation-shift-trigger");
     const generationLibraryPanel = generationLibraryDropdown?.querySelector(".generation-library-panel");
@@ -99,7 +106,9 @@
     const generationCopyPanel = generationCopyDropdown?.querySelector(".generation-copy-panel");
     const generationCopyOptions = generationCopyDropdown?.querySelector("[data-generation-copy-options]");
     const generationCopyLabel = generationCopyDropdown?.querySelector("[data-generation-copy-label]");
+    const generationConfigNewButton = document.querySelector(".generation-config-new-button");
     const generationConfigTable = document.querySelector(".generation-config-table");
+    const generationConfigTableBody = generationConfigTable?.querySelector("tbody");
 
     const escapeHtml = (value) => String(value ?? "")
       .replaceAll("&", "&amp;")
@@ -132,6 +141,37 @@
       purple: "purple"
     };
 
+    const buildConfigAvailableShiftCardsMarkup = () => Array.from({ length: GENERATION_SHIFT_LIMIT }, () => `
+      <article class="generation-shift-pill create static" data-config-available="true">
+        <strong>Disponible</strong>
+      </article>
+    `).join("");
+    const buildGenerationConfigCategoryRow = (name, description) => `
+      <tr>
+        <td>
+          <div class="generation-config-category">
+            <span class="material-symbols-outlined generation-config-category-icon">calendar_month</span>
+            <div>
+              <strong>${escapeHtml(name)}</strong>
+              <p>${escapeHtml(description || "Sin descripción")}</p>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="generation-config-chips">${buildConfigAvailableShiftCardsMarkup()}</div>
+        </td>
+        <td>
+          <div class="detail-icon-group generation-config-actions">
+            <button class="detail-square-button edit" type="button" aria-label="Editar categor?a">
+              <span class="material-symbols-outlined">edit_square</span>
+            </button>
+            <button class="detail-square-button danger" type="button" aria-label="Eliminar categor?a">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
     const coverageViews = {
       all: {
         rows: [
@@ -1161,6 +1201,7 @@
 
     const resetGenerationCreateForm = () => {
       generationEditingShiftId = null;
+      generationModalContext = { surface: "main", card: null, isEditing: false };
       generationCreateState = { isOff: false, includesLunch: true, color: "teal" };
       if (generationCreateNameInput) generationCreateNameInput.value = "";
       if (generationCreateStartInput) generationCreateStartInput.value = "08:00";
@@ -1175,6 +1216,25 @@
       if (!generationCreateModal) return;
       generationCreateModal.hidden = true;
       generationCreateModal.classList.remove("is-visible");
+      generationEditingShiftId = null;
+      generationModalContext = { surface: "main", card: null, isEditing: false };
+    };
+    const resetGenerationCategoryForm = () => {
+      if (generationCategoryNameInput) generationCategoryNameInput.value = "";
+      if (generationCategoryDescriptionInput) generationCategoryDescriptionInput.value = "";
+    };
+    const openGenerationCategoryModal = () => {
+      if (!generationCategoryModal) return;
+      closeGenerationAssignMenu();
+      resetGenerationCategoryForm();
+      generationCategoryModal.hidden = false;
+      requestAnimationFrame(() => { generationCategoryModal.classList.add("is-visible"); });
+      generationCategoryNameInput?.focus();
+    };
+    const closeGenerationCategoryModal = () => {
+      if (!generationCategoryModal) return;
+      generationCategoryModal.hidden = true;
+      generationCategoryModal.classList.remove("is-visible");
     };
 
     const openGenerationCreateModal = () => {
@@ -1244,6 +1304,12 @@
         lunchEnd
       };
 
+      if (generationModalContext.surface === "config" && generationModalContext.card) {
+        applyConfigShiftCard(generationModalContext.card, shiftPayload);
+        closeGenerationCreateModal();
+        return;
+      }
+
       if (generationEditingShiftId) {
         const existingShift = generationShiftOptions.find((option) => option.id === generationEditingShiftId);
         if (!existingShift) return;
@@ -1266,6 +1332,12 @@
     };
 
     const deleteGenerationShift = () => {
+      if (generationModalContext.surface === "config" && generationModalContext.card) {
+        resetConfigShiftCardToAvailable(generationModalContext.card);
+        closeGenerationCreateModal();
+        return;
+      }
+
       if (!generationEditingShiftId) return;
       const shiftIndex = generationShiftOptions.findIndex((option) => option.id === generationEditingShiftId);
       if (shiftIndex < 0) return;
@@ -1283,6 +1355,19 @@
       renderGenerationAssignMenu();
       renderGenerationBoard();
       closeGenerationCreateModal();
+    };
+
+    const createGenerationCategory = () => {
+      const categoryName = generationCategoryNameInput?.value.trim();
+      const categoryDescription = generationCategoryDescriptionInput?.value.trim() || "";
+      if (!categoryName) {
+        generationCategoryNameInput?.focus();
+        return;
+      }
+      if (!generationConfigTableBody) return;
+
+      generationConfigTableBody.insertAdjacentHTML("beforeend", buildGenerationConfigCategoryRow(categoryName, categoryDescription));
+      closeGenerationCategoryModal();
     };
 
     const closeGenerationAssignMenu = () => {
@@ -1578,6 +1663,11 @@
 
     generationCreateDeleteButton?.addEventListener("click", deleteGenerationShift);
     generationCreateSubmitButton?.addEventListener("click", saveGenerationShift);
+    generationConfigNewButton?.addEventListener("click", openGenerationCategoryModal);
+    generationCategoryCloseButtons.forEach((button) => {
+      button.addEventListener("click", closeGenerationCategoryModal);
+    });
+    generationCategorySubmitButton?.addEventListener("click", createGenerationCategory);
 
     generationConfigTable?.addEventListener("click", (event) => {
       const deleteButton = event.target.closest(".detail-square-button.danger");
